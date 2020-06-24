@@ -1,0 +1,87 @@
+<html>
+<header></header>
+<script src="calculators.js" type="text/javascript"></script>
+<script>
+   
+function Calc()
+{
+	var input = new Object();
+	var output = new Object();
+
+	input.Resistivity = 0.0226;	//Bei 100°C
+	input.Length = parseFloat(document.InputForm.Len.value);
+	if (isNaN(input.Length))
+	{
+		alert("Ungültige Eingabe der Leiterbahnlänge");
+		return;
+	}      
+	Width = parseFloat(document.InputForm.Width.value);
+	if (isNaN(Width))
+	{
+		alert("Ungültige Eingabe der Leiterbahnbreite");
+		return;
+	}      
+	Thickness = parseFloat(document.InputForm.Thickness.value)/1000;
+	if (isNaN(Thickness))
+	{
+		alert("Ungültige Eingabe der Leiterbahndicke");
+		return;
+	}
+	input.CrossSection = Thickness * Width;  
+
+	
+	
+	input.Current = parseFloat(document.InputForm.Current.value);   
+	if (isNaN(input.Current))
+	{
+		alert("Ungültige Eingabe des Stroms");
+		return;
+	}      
+	Duration = parseFloat(document.InputForm.Duration.value)/1000;   
+	if (isNaN(Duration))
+	{
+		alert("Ungültige Eingabe der Dauer");
+		return;
+	}      
+	if (Duration>1)
+		alert("Bei Zeiten über einer Sekunde liegt die berechnete Temperaturerhöhung wegen der Kühlung durch die Umgebung schon sehr weit über dem realen Temperaturanstieg und ist wenig aussagekräftig");
+	
+	output = getResistance(input);
+	MatProp = getMaterialProperties("copper");
+	document.getElementById('CrossSection').innerHTML = output.CrossSectionStr;
+	document.getElementById('Resistance').innerHTML = output.ResistanceStr;
+	document.getElementById('VoltageDrop').innerHTML = output.VoltageDropStr;
+	document.getElementById('PowerLoss').innerHTML = output.PowerLossStr;      
+	document.getElementById('Energy').innerHTML = scalePhysicalValue((output.PowerLoss*Duration),"","J",3);      	
+	document.getElementById('TempDiff').innerHTML = scalePhysicalValue(getAdiabaticTempDiff(output.PowerLoss, Duration, input.Length, Width, Thickness, MatProp.Density, MatProp.HeatCapacity),"","K",3);      
+	}
+   
+   
+</script>
+
+<body onload="javascript:Calc();">
+	<h1>Eigenerwärmung einer Leiterbahn bei kurzen Strom-Pulsen</h1>
+	Bei kurzen Strompulsen kann es interessant sein, wie stark sich die Leiterbahn durch diesen einzelnen Puls erwärmt. 
+   Für einen kurzen Zeitraum kann eine Leiterbahn ein Vielfaches des Nennstromes tragen. 
+   Wichtig ist, dass sich das Kupfer in dieser Zeit nicht zu stark erwärmt. <br>
+   Diese Erwärmung kann hier berechnet werden. <br>
+   Die Berechnung berücksichtigt nicht, dass das Kupfer durch die umliegenden Materialen Wärme abgibt. Im wirklichen Leben wird die Temperaturerhöhung also immer geringer als das hier errechnete Ergebnis sein.
+
+(Berechnung wird vereinfacht mit den spezifischen Eigenschaften von Kupfer bei 100°C durchgeführt)
+   <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
+      Länge:<input id="Len" name="Len" type="text" value="10" autocomplete="off">mm <br>
+	  Breite:<input id="Width" name="Width" type="text" value="1" autocomplete="off">mm <br>
+	  Dicke:<input id="Thickness" name="Thickness" type="text" value="35" autocomplete="off">µm <br></span>      
+	  Strom:<input id="Current" name="Current" type="text" value="10" autocomplete="off">A <br>	
+	  Dauer:<input id="Duration" name="Duration" type="text" value="100" autocomplete="off">ms <br>	
+   </form>
+   Ergebnisse:<br>
+   Querschnitt:<span id="CrossSection"></span><br>
+   Widerstand:<span id="Resistance"></span><br>
+   Spannungsabfall:<span id="VoltageDrop"></span><br>
+   Verlustleistung:<span id="PowerLoss"></span><br>
+   Energie:<span id="Energy"></span><br>
+   Temperaturerhöhung:<span id="TempDiff"></span><br>
+</body>
+
+</html>

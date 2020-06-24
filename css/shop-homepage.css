@@ -2,7 +2,149 @@
  * Start Bootstrap - Shop Homepage (https://startbootstrap.com/template-overviews/shop-homepage)
  * Copyright 2013-2019 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-shop-homepage/blob/master/LICENSE)
+
+Colors for PIingTools:
+    |Rot 		#E3000F
+    |Graubraun 	#57533E
+	|Hellgrau 	#DCD6CF
+	|Orange 	#E84D10
+	|Pink 		#E30A68
+	|Türkis 	#00AFA4
+	|
+	|Präsirot (PPP)	#A20000
+
  */
+
+::selection{background-color: #A20000; color: #FFFFFF;}
+::moz-selection{background-color: #A20000; color: #FFFFFF;}
+
+.bg-PIred{
+    background-color: #E3000F !important;
+}
+.bg-PIbrown{
+    background-color: #57533E !important;
+}
+.bg-PIgrey{
+    background-color: #DCD6CF !important;
+}
+.bg-PIorgange{
+    background-color: #E84D10 !important;
+}
+.bg-PIpink{
+    background-color: #E30A68 !important;
+}
+.bg-PIturquoise{
+    background-color: #00AFA4 !important;
+}
+.bg-PIredPP{
+    background-color: #A20000 !important;
+}
+.fnt-PIred{
+    text-align: 1.5rem;
+    color: #E3000F !important;
+}
+.fnt-PIbrown{
+    color: #57533E !important;
+}
+.fnt-PIgrey{
+    color: #DCD6CF !important;
+}
+.fnt-PIorgange{
+    color: #E84D10 !important;
+}
+.fnt-PIpink{
+    color: #E30A68 !important;
+}
+.fnt-PIturquoise{
+    color: #00AFA4 !important;
+}
+.fnt-PIredPP{
+    color: #A20000 !important;
+}
+
+
+html {
+    background-color: #DCD6CF;
+font-family: sans-serif;
+    line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 body {
-  padding-top: 56px;
+    padding-top: 70px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.15;
+    text-align: left;
+    color: #57533E;
+    margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+h1, .h1 {
+    color: #E3000F;
+  font-size: 2.5rem;
+}
+
+h2, .h2 {
+  font-size: 2rem;
+}
+
+h3, .h3 {
+  font-size: 1.75rem;
+}
+
+h4, .h4 {
+    color: #E3000F;
+  font-size: 1.5rem;
+}
+
+h5, .h5 {
+  font-size: 1.25rem;
+}
+
+h6, .h6 {
+    color: #57533E;
+  font-size: 1rem;
+}
+
+.imgnav{
+  vertical-align: middle;
+  border-style: none;
+}
+
+
+.card-top{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+   -ms-flex: 0.1 0.1 auto;
+  flex: 0.1 0.1 auto;
+  padding: 0.5rem;
+}
+
+a.linkPI {
+    text-decoration-color: #E3000F;
+}
+
+.foottop,
+.footPI {
+    padding-top: 2rem !important;
+}
+.footbottom,
+.footPI {
+    padding-bottom: 2rem !important;
 }

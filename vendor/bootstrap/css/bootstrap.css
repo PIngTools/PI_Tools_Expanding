@@ -38,7 +38,7 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+box-sizing: border-box;
 }
 
 html {
@@ -477,8 +477,8 @@ mark,
 }
 
 .img-fluid {
-  max-width: 100%;
-  height: auto;
+  width: auto;
+  height: 900px !important;
 }
 
 .img-thumbnail {
@@ -4214,8 +4214,8 @@ input[type="button"].btn-block {
   flex-basis: 100%;
   -ms-flex-positive: 1;
   flex-grow: 1;
-  -ms-flex-align: center;
-  align-items: center;
+  -ms-flex-align: left;
+  align-items: left;
 }
 
 .navbar-toggler {
@@ -4621,7 +4621,7 @@ input[type="button"].btn-block {
 }
 
 .card-footer {
-  padding: 0.75rem 1.25rem;
+  padding: 0.1rem 0.1rem;
   background-color: rgba(0, 0, 0, 0.03);
   border-top: 1px solid rgba(0, 0, 0, 0.125);
 }
@@ -4657,9 +4657,11 @@ input[type="button"].btn-block {
 }
 
 .card-img-top {
-  width: 100%;
-  border-top-left-radius: calc(0.25rem - 1px);
+    width: 100%;
+    height: auto;
+    border-top-left-radius: calc(0.25rem - 1px);
   border-top-right-radius: calc(0.25rem - 1px);
+  
 }
 
 .card-img-bottom {
@@ -6578,13 +6580,17 @@ button.bg-light:focus {
 }
 
 .bg-dark {
-  background-color: #343a40 !important;
+  background-color: black !important;
 }
 
 a.bg-dark:hover, a.bg-dark:focus,
 button.bg-dark:hover,
 button.bg-dark:focus {
   background-color: #1d2124 !important;
+}
+
+.bg-brown {
+    background-color: #dcd6cf !important;
 }
 
 .bg-white {
@@ -10035,4 +10041,23 @@ a.text-dark:hover, a.text-dark:focus {
     border-color: #dee2e6;
   }
 }
-/*# sourceMappingURL=bootstrap.css.map */
+
+.card-img-etc {
+    width: 100%;
+    height:auto;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+.card-title_PI {
+    margin-bottom: 0.75rem;
+    color: #E3000F;
+}
+
+h4_PI {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+    color: PIred;
+}

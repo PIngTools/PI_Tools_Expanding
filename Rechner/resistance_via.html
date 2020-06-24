@@ -1,0 +1,146 @@
+<html>
+<header></header>
+
+<script src="calculators.js" type="text/javascript"></script>
+<script>
+   
+function Calc()
+{
+	var input = new Object();
+	var output = new Object();
+
+	MatProp = getMaterialProperties("copper");
+
+	input.Length = parseFloat(document.InputForm.Length.value);
+	if (isNaN(input.Length))
+	{
+		alert("Ungültige Eingabe der Leiterplattenstärke");
+		return;
+	}      
+
+	Diameter = parseFloat(document.InputForm.Dia.value);
+	if (isNaN(Diameter))
+	{
+		alert("Ungültige Eingabe des Bohrdurchmessers");
+		return;
+	}      
+
+	CopperThickness = parseFloat(document.InputForm.CopperThickness.value);
+	if (isNaN(CopperThickness) || CopperThickness/1000>Diameter/2)
+	{
+		alert("Ungültige Eingabe der Aufkupferung");
+		return;
+	}      
+
+	Nr = parseFloat(document.InputForm.Nr.value);
+	if (isNaN(Nr))
+	{
+		alert("Ungültige Eingabe der Via-Anzahl");
+		return;
+	}      
+
+
+	EndHoleSize = Diameter - CopperThickness*2/1000;
+	
+
+	if (document.InputForm.ResType[0].checked)		//elektrischer Widerstand
+	{
+		input.CrossSection = ((Diameter*Diameter) - (EndHoleSize*EndHoleSize))/4*3.1415926536*Nr;
+		Temperature = parseFloat(document.InputForm.Temperature.value);   
+		if (isNaN(Temperature))
+		{
+			alert("Ungültige Eingabe der Kupfertemperatur");
+			return;
+		}     
+		input.Current = parseFloat(document.InputForm.Current.value);   
+		if (isNaN(input.Current))
+		{
+			alert("Ungültige Eingabe des Stroms");
+			return;
+		}      
+ 
+		input.Resistivity = MatProp.Resistivity*(1+MatProp.TempCo*(Temperature-20));
+		document.InputForm.Resistivity.value = input.Resistivity.toFixed(4);      
+		document.getElementById('Electrical').style.visibility='visible';
+		document.getElementById('Electrical').style.position='static';
+		document.getElementById('Thermal').style.visibility='hidden';
+		document.getElementById('Thermal').style.position='absolute';	
+		document.getElementById('Electrical1').style.visibility='visible';
+		document.getElementById('Electrical1').style.position='static';
+		document.getElementById('Thermal1').style.visibility='hidden';
+		document.getElementById('Thermal1').style.position='absolute';	
+		document.getElementById('Electrical2').style.visibility='visible';
+		document.getElementById('Electrical2').style.position='static';
+		document.getElementById('Thermal2').style.visibility='hidden';
+		document.getElementById('Thermal2').style.position='absolute';	
+
+
+		output = getResistance(input);
+		document.getElementById('Resistance').innerHTML = output.ResistanceStr;
+		document.getElementById('VoltageDrop').innerHTML = output.VoltageDropStr;
+		document.getElementById('PowerLoss').innerHTML = output.PowerLossStr;   
+	}	
+	else if (document.InputForm.ResType[1].checked)
+	{
+		input.CrossSection = ((Diameter*Diameter) - (EndHoleSize*EndHoleSize))/4*3.1415926536*Nr/1000/1000;
+		input.ThermalConductivity=parseFloat(document.InputForm.ThermalConductivity.value);
+		input.Power = parseFloat(document.InputForm.Power.value);   
+		if (isNaN(input.Power))
+		{
+			alert("Ungültige Eingabe der Wärmeleistung");
+			return;
+		}      
+		document.getElementById('Electrical').style.visibility='hidden';
+		document.getElementById('Electrical').style.position='absolute';
+		document.getElementById('Thermal').style.visibility='visible';	
+		document.getElementById('Thermal').style.position='static';	
+		document.getElementById('Electrical1').style.visibility='hidden';
+		document.getElementById('Electrical1').style.position='absolute';
+		document.getElementById('Thermal1').style.visibility='visible';	
+		document.getElementById('Thermal1').style.position='static';	
+		document.getElementById('Electrical2').style.visibility='hidden';
+		document.getElementById('Electrical2').style.position='absolute';
+		document.getElementById('Thermal2').style.visibility='visible';	
+		document.getElementById('Thermal2').style.position='static';	
+
+
+		output = getThermalResistance(input);
+		document.getElementById('ThermalResistance').innerHTML = output.ThermalResistanceStr;
+		document.getElementById('TemperatureDiff').innerHTML = output.TemperatureDropStr;
+	}
+
+	document.getElementById('CrossSection').innerHTML = output.CrossSectionStr;
+
+}
+   
+   
+</script>
+
+<body onload="javascript:Calc();">
+	<h1>(Wärme)Widerstand Via</h1>
+	Der elektrische Widerstand von (parallelgeschalteten) Durchkontaktierungen (Vias) kann hier berechnet werden. Weiterhin eignen sich Durchkontaktierungen auch erstaunlich gut, um Wärme von einer Leiterplattenseite auf die andere zu übertragen. Dieses Berechnungtool berechnet sowohl den elektrischen als auch den thermischen Widerstand von Vias.
+   <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
+      <input type="radio" name="ResType" value="elec" checked>elektrischer Widerstand<br>
+	  <input type="radio" name="ResType" value="thermal">Wärmewiderstand<br>
+      <span id="Electrical" style="visibility:visible">Kupfertemperatur:<input id="Temperature" name="Temperature" type="text" value="20" autocomplete="off">°C <br>
+      spezifischer elektrischer Widerstand:<input id="Resistivity" name="Resistivity" type="text" value="" disabled="true" autocomplete="off">&Omega;mm²/m</span> 
+	  <span id="Thermal" style="visibility:hidden;position:absolute">&nbsp;<br>Wärmeleitwert Kupfer:<input id="ThermalConductivity" type="text" value="355" disabled="true" autocomplete="off">W/mK</span> 
+	  <br>&nbsp;<br>
+	  Leiterplattenstärke:<input id="Length" name="Length" type="text" value="1.5" autocomplete="off">mm <br>
+      Bohrdurchmesser:<input id="Dia" name="Dia" type="text" value="1" autocomplete="off">mm <br>
+	  Aufkupferung:<input id="CopperThickness" name="CopperThickness" type="text" value="15" autocomplete="off">µm <br>
+	  Anzahl paralleler Vias:<input id="Nr" name="Nr" type="text" value="1" autocomplete="off"> <br>
+	  <span id="Electrical1" style="visibility:visible">Strom:<input id="Current" name="Current" type="text" value="1" autocomplete="off">A <br></span>	
+	  <span id="Thermal1" style="visibility:hidden;position:absolute">Wärmeleistung:<input id="Power" name="Power" type="text" value="1" autocomplete="off">W <br>	</span>
+   </form>
+   Ergebnisse:<br>
+   Querschnitt:<span id="CrossSection"></span><br>
+   <span id="Electrical2" style="visibility:visible">Widerstand:<span id="Resistance"></span><br>
+   Spannungsabfall:<span id="VoltageDrop"></span><br>
+   Verlustleistung:<span id="PowerLoss"></span><br></span>
+   
+   <span id="Thermal2" style="visibility:hidden;position:absolute">Wärmewiderstand:<span id="ThermalResistance"></span><br>
+   Temperaturdifferenz:<span id="TemperatureDiff"></span><br></span>
+</body>
+
+</html>
