@@ -1,31 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
+    
 <head>
-      <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
 
-  <title>Shop Homepage - Start Bootstrap Template</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Homepage ">
+  <meta name="author" content="Tristan Linnemeier">
+
+    <link rel="icon" type="image/png" href="/Bilder/Logo_pi_rgb.png">
+  <title>PIng Tools</title>
 
   <!-- Bootstrap core CSS -->
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
   <link href="/css/shop-homepage.css" rel="stylesheet">
-    </head>
-    <body>
+
+    <script src="/vendor/jquery/jquery_sizzle.js"></script>
+    
+</head>
+    
+<body>
+        
 <!--Navigation bar-->
-<div id="nav-placeholder">
+    <div id="nav-placeholder">
 
-</div>
-    <script>
-$(function(){
-  $("#nav-placeholder").load("/nav.html");
-});
-</script>
-
+    </div>
+        <script>
+    $(function(){
+      $("#nav-placeholder").load("/nav.html");
+    });
+    </script>
 <!--end of Navigation bar-->
+        
 <script src="calculators.js" type="text/javascript"></script>
 <script>
 function Calc()
@@ -121,8 +129,16 @@ function Calc()
 </script>
 
 <body onload="javascript:Calc();">
-	<h1>Widerstand</h1>
-	Berechnung des elektrischen Widerstands von Zylindern und Quadern verschiedener Materialien.
+    
+    <div class="container">
+        <div class="row">
+            
+	
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <h1>Elektrischer Widerstand</h1>
+	<h2>Berechnung des elektrischen Widerstands von Zylindern und Quadern verschiedener Materialien.</h2>
+            </div>
+            <div class="col-lg-4 col-sm-6 mb-4">
    <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
       <input type="radio" name="Shape" value="cylinder" checked>runder Querschnitt<br>
 	  <input type="radio" name="Shape" value="block">rechteckiger Querschnitt<br>
@@ -147,11 +163,29 @@ function Calc()
       <span id="CylinderForm">Durchmesser:<input id="Dia" name="Dia" type="text" value="1" autocomplete="off">mm <br></span>
 	  Strom:<input id="Current" name="Current" type="text" value="1" autocomplete="off">A <br>	
    </form>
+            </div>
+            <div class="col-lg-4 col-sm-6 mb-4">
    Ergebnisse:<br>
    Querschnitt:<span id="CrossSection"></span><br>
    Widerstand:<span id="Resistance"></span><br>
    Spannungsabfall:<span id="VoltageDrop"></span><br>
    Verlustleistung:<span id="PowerLoss"></span><br>
+            </div>
+            </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footPI bg-PIgrey">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; PIngTools 2020 <br>
+                <a class="fnt-PIred" href="https://preis-ing.de" target="_blank">Preis Ingenieurbüro GmbH</a>
+            </p>
+        </div><!-- class="container" -->
+    </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </body>
 </html>
