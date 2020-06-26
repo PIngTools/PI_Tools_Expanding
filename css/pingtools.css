@@ -72,7 +72,7 @@ font-family: sans-serif;
 }
 
 body {
-    padding-top: 66px;
+    padding-top: 4rem;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-size: 1rem;
     font-weight: 400;
@@ -122,14 +122,6 @@ h6, .h6 {
   font-size: 1rem;
 }
 
-input[type="radio"], .input[type="radio"]
-input[type="checkbox"] {
-    background-color: #E3000F;
-    display: inline-block;
-    visibility: visible;
-    border: 2px solid white;
-}
-
 .imgnav{
   vertical-align: middle;
   border-style: none;
@@ -149,6 +141,7 @@ a.linkPI {
     text-decoration-color: #E3000F;
 }
 
+/* Fußzeile */
 .foottop,
 .footPI {
     padding-top: 2rem !important;
@@ -157,7 +150,9 @@ a.linkPI {
 .footPI {
     padding-bottom: 2rem !important;
 }
+/* end Fußzeile */
 
+/* Titelbild auf Website */
 .masthead {
   height: 100vh;
   min-height: 500px;
@@ -167,3 +162,161 @@ a.linkPI {
   background-position: center;
   background-repeat: no-repeat;
 }
+/* end Titelbild auf Website */
+
+/* Radiobottons für PIngTools */
+    /* Customize the label (the container) */
+    .radioPI {
+      display: block;
+      position: relative;
+      padding-left: 35px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 22px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    /* Hide the browser's default radio button */
+    .radioPI input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    /* Create a custom radio button */
+    .checkmarkRadioPI {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 25px;
+      width: 25px;
+      background-color: #eee;
+      border-radius: 50%;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .radioPI:hover input ~ .checkmarkRadioPI {
+      background-color: #ccc;
+    }
+
+    /* When the radio button is checked, add a blue background */
+    .radioPI input:checked ~ .checkmarkRadioPI {
+      background-color: #E3000F;
+    }
+
+    /* Create the indicator (the dot/circle - hidden when not checked) */
+    .checkmarkRadioPI:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    /* Show the indicator (dot/circle) when checked */
+    .radioPI input:checked ~ .checkmarkRadioPI:after {
+      display: block;
+    }
+
+    /* Style the indicator (dot/circle) */
+    .radioPI .checkmarkRadioPI:after {
+      top: 9px;
+      left: 9px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+/* end Radiobottons für PIngTools */
+
+/* The container */
+.checkboxPI {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkboxPI input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmarkcheckPI {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checkboxPI:hover input ~ .checkmarkcheckPI {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkboxPI input:checked ~ .checkmarkcheckPI {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmarkcheckPI:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkboxPI input:checked ~ .checkmarkcheckPI:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkboxPI .checkmarkcheckPI:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* in html file eintragen */
+    /*
+    <label class="checkboxPI">One
+      <input type="checkbox" checked="checked">
+      <span class="checkmarkcheckPI"></span>
+    </label>
+    <label class="checkboxPI">Two
+      <input type="checkbox">
+      <span class="checkmarkcheckPI"></span>
+    </label>
+    <label class="checkboxPI">Three
+      <input type="checkbox">
+      <span class="checkmarkcheckPI"></span>
+    </label>
+    <label class="checkboxPI">Four
+      <input type="checkbox">
+      <span class="checkmarkcheckPI"></span>
+    </label>
+    */
+/* end in html file eintragen */
