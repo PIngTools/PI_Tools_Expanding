@@ -24,12 +24,10 @@
 <body>
         
 <!--Navigation bar-->
-    <div id="nav-placeholder">
-
-    </div>
+    <div id="nav-placeholder"></div>
         <script>
     $(function(){
-      $("#nav-placeholder").load("../nav/nav.html");
+      $("#nav-placeholder").load("../header/nav.html");
     });
     </script>
 <!--end of Navigation bar-->
@@ -132,16 +130,28 @@ function Calc()
     
     <div class="container">
         <div class="row">
-            
-	
             <div class="col-12 mb-4">
                 <h1>Elektrischer Widerstand</h1>
-	<h3>Berechnung des elektrischen Widerstands von Zylindern und Quadern verschiedener Materialien.</h3>
+                <h3>Berechnung des elektrischen Widerstands von Zylindern und Quadern verschiedener Materialien.</h3>
             </div>
             <div class="col-lg-4 col-sm-6 mb-4">
-   <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
-      <input style="color: #E3000F" type="radio" name="Shape" value="cylinder" checked="checked">runder Querschnitt<br>
-	  <input type="radio" name="Shape" value="block">rechteckiger Querschnitt<br>
+                <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
+       
+                <!-- Radiobottons für Auswahl der Form -->
+                    <!-- Runder Querschnitt -->
+                    <label class="radioPI">Runder Querschnitt
+                        <input type="radio" name="Shape" value="cylinder" checked="checked">
+                        <span class="checkmarkRadioPI"></span>
+                    </label>
+                    <!-- end Runder Querschnitt -->
+
+                    <!-- Rechteckiger Querschnitt -->
+                    <label class="radioPI">Rechteckiger Querschnitt
+                        <input type="radio" name="Shape" value="block">
+                        <span class="checkmarkRadioPI"></span>
+                    </label>
+                <!-- end Radiobottons für Auswahl der Form -->
+       
 	  <select name="Material" autocomplete="off">
          <option value="copper">Kupfer</option>
          <option value="aluminium">Aluminium</option>
@@ -174,14 +184,14 @@ function Calc()
             </div>
     </div>
     
-    <!-- Footer -->
-    <footer class="footPI bg-PIgrey">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; PIngTools 2020 <br>
-                <a class="fnt-PIred" href="https://preis-ing.de" target="_blank">Preis Ingenieurbüro GmbH</a>
-            </p>
-        </div><!-- class="container" -->
-    </footer>
+<!--Footer bar-->
+    <div id="foot-placeholder"></div>
+        <script>
+    $(function(){
+      $("#foot-placeholder").load("../header/footer.html");
+    });
+    </script>
+<!--end of Footer bar-->
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
