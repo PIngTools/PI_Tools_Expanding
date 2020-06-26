@@ -104,6 +104,7 @@ h2, .h2 {
 }
 
 h3, .h3 {
+    color: #57533E;
   font-size: 1.75rem;
 }
 
@@ -119,6 +120,14 @@ h5, .h5 {
 h6, .h6 {
     color: #57533E;
   font-size: 1rem;
+}
+
+input[type="radio"], .input[type="radio"]
+input[type="checkbox"] {
+    background-color: #E3000F;
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
 }
 
 .imgnav{
