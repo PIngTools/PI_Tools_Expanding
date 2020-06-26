@@ -15,7 +15,7 @@
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="/css/shop-homepage.css" rel="stylesheet">
+  <link href="/css/pingtools.css" rel="stylesheet">
 
     <script src="/vendor/jquery/jquery_sizzle.js"></script>
     
@@ -29,7 +29,7 @@
     </div>
         <script>
     $(function(){
-      $("#nav-placeholder").load("/nav.html");
+      $("#nav-placeholder").load("../nav/nav.html");
     });
     </script>
 <!--end of Navigation bar-->
@@ -134,13 +134,13 @@ function Calc()
         <div class="row">
             
 	
-            <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="col-12 mb-4">
                 <h1>Elektrischer Widerstand</h1>
-	<h2>Berechnung des elektrischen Widerstands von Zylindern und Quadern verschiedener Materialien.</h2>
+	<h3>Berechnung des elektrischen Widerstands von Zylindern und Quadern verschiedener Materialien.</h3>
             </div>
             <div class="col-lg-4 col-sm-6 mb-4">
    <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
-      <input type="radio" name="Shape" value="cylinder" checked>runder Querschnitt<br>
+      <input style="color: #E3000F" type="radio" name="Shape" value="cylinder" checked="checked">runder Querschnitt<br>
 	  <input type="radio" name="Shape" value="block">rechteckiger Querschnitt<br>
 	  <select name="Material" autocomplete="off">
          <option value="copper">Kupfer</option>
