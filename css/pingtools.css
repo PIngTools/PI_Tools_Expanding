@@ -172,7 +172,7 @@ a.linkPI {
       padding-left: 35px;
       margin-bottom: 12px;
       cursor: pointer;
-      font-size: 22px;
+      font-size: 20px;
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
@@ -239,7 +239,7 @@ a.linkPI {
   padding-left: 35px;
   margin-bottom: 12px;
   cursor: pointer;
-  font-size: 22px;
+  font-size: 20px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -320,3 +320,46 @@ a.linkPI {
     </label>
     */
 /* end in html file eintragen */
+
+/* class for selectbox in PIngTools */
+.selectPI {
+    display: block;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin-left: 2rem;
+    margin-bottom: 0.5rem;
+    font-size: 20px;
+    color: #57533E;
+    border-color: #E3000F;
+    border-width: medium;
+    border-radius: 0.3rem;
+}
+
+/* class for input text */
+.inputTextPI {
+    font-size: 20px;
+    color: #57533E;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    margin-left: 3rem;
+    border-radius: 0.5rem;
+    border-width: medium;
+}
+
+/* class for Text written in calculators */
+.textPI {
+    color: #57533E;
+    font-size: 20px;
+}
+
+/* class for the style of bottons */
+.buttonPI {
+    font-size: 22px;
+    color: #E3000F;
+    background-color: white;
+    border-radius: 0.5rem;
+    border-width: medium;
+    border-color: #E3000F;
+    margin-top: 0.8rem;
+    margin-left: 10rem;
+}

@@ -134,7 +134,7 @@ function Calc()
                 <h1>Elektrischer Widerstand</h1>
                 <h3>Berechnung des elektrischen Widerstands von Zylindern und Quadern verschiedener Materialien.</h3>
             </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="col-lg-6 mb-4">
                 <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
        
                 <!-- Radiobottons für Auswahl der Form -->
@@ -151,36 +151,67 @@ function Calc()
                         <span class="checkmarkRadioPI"></span>
                     </label>
                 <!-- end Radiobottons für Auswahl der Form -->
-       
-	  <select name="Material" autocomplete="off">
-         <option value="copper">Kupfer</option>
-         <option value="aluminium">Aluminium</option>
-         <option value="brass">Messing</option>
-         <option value="gold">Gold</option>
-         <option value="silver">Silber</option>
-         <option value="solder">Lötzinn</option>
-		 <option value="iron">Eisen</option>
-		 <option value="steel">Stahl</option>		 
-		 <option value="manual">manuell</option>
-      </select><br>
-      Temperatur:<input id="Temperature" name="Temperature" type="text" value="20" autocomplete="off">°C <br>
-      spezifischer Widerstand:<input id="Resistivity" name="Resistivity" type="text" value="" autocomplete="off">&Omega;mm²/m <br>&nbsp;<br>
-      Länge:<input id="Length" name="Length" type="text" value="10" autocomplete="off">mm <br>
-	  <span id="BlockForm" style="visibility:hidden;position:absolute">
-	  Breite:<input id="Width" name="Width" type="text" value="1" autocomplete="off">mm <br>
-	  Höhe:<input id="Height" name="Height" type="text" value="1" autocomplete="off">mm <br></span>
+                
+                <!-- Selectbox für Material -->
+                    <select class="selectPI" name="Material" autocomplete="off">
+                        <option value="copper">Kupfer</option>
+                        <option value="aluminium">Aluminium</option>
+                        <option value="brass">Messing</option>
+                        <option value="gold">Gold</option>
+                        <option value="silver">Silber</option>
+                        <option value="solder">Lötzinn</option>
+                        <option value="iron">Eisen</option>
+                        <option value="steel">Stahl</option>		 
+                        <option value="manual">manuell</option>
+                    </select><br>
+                <!-- end Selectbox für Material -->
+    
+                    
+                    <span class="textPI">
+                        Temperatur:<br>
+                        <input class="inputTextPI" id="Temperature" name="Temperature" type="text" value="20" autocomplete="off">°C <br>
+                        spezifischer Widerstand:<br>
+                        <input class="inputTextPI" id="Resistivity" name="Resistivity" type="text" value="" autocomplete="off">&Omega;mm²/m <br>&nbsp;<br>
+                        Länge:<br>
+                        <input class="inputTextPI" id="Length" name="Length" type="text" value="10" autocomplete="off">mm <br>
+                        <span id="BlockForm" style="visibility:hidden;position:absolute">
+                            Breite:<br>
+                            <input class="inputTextPI" id="Width" name="Width" type="text" value="1" autocomplete="off">mm <br>
+                            Höhe:<br>
+                            <input class="inputTextPI" id="Height" name="Height" type="text" value="1" autocomplete="off">mm <br>
+                        </span>
 	  
-      <span id="CylinderForm">Durchmesser:<input id="Dia" name="Dia" type="text" value="1" autocomplete="off">mm <br></span>
-	  Strom:<input id="Current" name="Current" type="text" value="1" autocomplete="off">A <br>	
-   </form>
+                        <span id="CylinderForm">
+                            Durchmesser:<br>
+                            <input class="inputTextPI" id="Dia" name="Dia" type="text" value="1" autocomplete="off">mm <br>
+                        </span>
+                        Strom:<br>
+                        <input class="inputTextPI" id="Current" name="Current" type="text" value="1" autocomplete="off">A <br>
+                        
+                        <!-- button with no function to simply update the script by tabbing out of the textbox -->
+                        <input class="buttonPI" name="Knopf" type="button" value="Berechnen">
+                    </span>          
+                </form>
             </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
-   Ergebnisse:<br>
-   Querschnitt:<span id="CrossSection"></span><br>
-   Widerstand:<span id="Resistance"></span><br>
-   Spannungsabfall:<span id="VoltageDrop"></span><br>
-   Verlustleistung:<span id="PowerLoss"></span><br>
+            
+            <div class="col-lg-6 mb-4">
+                <span class="textPI">
+                    <h4>Ergebnisse</h4><br>
+                    
+                    Querschnitt: <span id="CrossSection"></span><br>
+                    Widerstand: <span id="Resistance"></span><br>
+                    Spannungsabfall: <span id="VoltageDrop"></span><br>
+                    Verlustleistung: <span id="PowerLoss"></span><br>
+                </span>
             </div>
+            <div class="col-12 mb-4">
+                <h4>Erklärung zur Formel</h4>
+                fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
+                fdnsjkafhdsjkfhsdjhf
+                dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
+                 hjdfhioffjiosdpjfa
+            </div>
+            
             </div>
     </div>
     
