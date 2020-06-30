@@ -100,12 +100,15 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  font-size: 2rem;
+    color: #E3000F;
+    font-size: 2rem;
+    font-weight: 300;
 }
 
 h3, .h3 {
     color: #57533E;
-  font-size: 1.75rem;
+    font-size: 1.75rem;
+    font-weight: 300;
 }
 
 h4, .h4 {
@@ -326,7 +329,6 @@ a.linkPI {
     display: block;
     padding-left: 2rem;
     padding-right: 2rem;
-    margin-left: 2rem;
     margin-bottom: 0.5rem;
     font-size: 20px;
     color: #57533E;
@@ -337,11 +339,8 @@ a.linkPI {
 
 /* class for input text */
 .inputTextPI {
-    font-size: 20px;
+    font-size: 18px;
     color: #57533E;
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
-    margin-left: 3rem;
     border-radius: 0.5rem;
     border-width: medium;
 }
@@ -349,7 +348,7 @@ a.linkPI {
 /* class for Text written in calculators */
 .textPI {
     color: #57533E;
-    font-size: 20px;
+    font-size: 19px;
 }
 
 /* class for the style of bottons */
@@ -362,4 +361,16 @@ a.linkPI {
     border-color: #E3000F;
     margin-top: 0.8rem;
     margin-left: 10rem;
+}
+
+/* Table header*/
+th, .th {
+    font-size: 19px;
+    color: #57533E;
+}
+
+/* Textinput verändern */
+input, .input{
+    width: 6rem;
+    text-align: end;
 }
