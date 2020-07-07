@@ -128,92 +128,185 @@ function Calc()
             <div class="col-lg-6 mb-4">
                 <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
                     
-                <!-- Radiobottons für Auswahl der Form -->
-                    <!-- Runder Querschnitt -->
-                    <label class="radioPI">Runder Querschnitt
-                        <input type="radio" name="Shape" value="cylinder" checked="checked">
-                        <span class="checkmarkRadioPI"></span>
-                    </label>
-                    <!-- end Runder Querschnitt -->
+                    <h4>Berechnung</h4><br>
+                    <div class="table-responsive">
+                        <table class="table tablePI">
+                            <tbody>
+                                <span class="textPI">
+                                    <tr>
+                                        <th>
+                                            Form
+                                        </th>
+                                        <td>
                     
-                    <!-- Rechteckiger Querschnitt -->
-                    <label class="radioPI">Rechteckiger Querschnitt
-                        <input type="radio" name="Shape" value="block">
-                        <span class="checkmarkRadioPI"></span>
-                    </label>
-                <!-- end Radiobottons für Auswahl der Form -->
-                    
-                    <select class="selectPI" name="Material" autocomplete="off">
-                        <option value="copper">Kupfer</option>
-                        <option value="aluminium">Aluminium</option>
-                        <option value="brass">Messing</option>
-                        <option value="gold">Gold</option>
-                        <option value="silver">Silber</option>
-                        <option value="solder">Lötzinn</option>
-                        <option value="iron">Eisen</option>		 
-                        <option value="steel_low">niedriglegierter Stahl</option>
-                        <option value="steel_heigh">hochlegierter Stahl</option>
-                        <option value="FR4">FR4</option>
-                        <option value="glass">Glas</option>
-                        <option value="PE">PE</option>
-                        <option value="PP">PP</option>
-                        <option value="PVC">PVC</option>
-                        <option value="silicone">Silikon</option>
-                        <option value="manual">manuell</option>
-                    </select><br>
-      
-                   <span class="textPI"> 
-                       Wärmeleitwert:<br>
-                       <input class="inputTextPI" id="ThermalConductivity" type="text" value="" autocomplete="off">W/mK <br>&nbsp;<br>
-                       Länge:<br>
-                       <input class="inputTextPI" id="Len" name="Len" type="text" value="10" autocomplete="off">mm <br>
-                       <span id="BlockForm" style="visibility:hidden;position:absolute">
-                           Breite:<br>
-                           <input class="inputTextPI" id="Width" name="Width" type="text" value="10" autocomplete="off">mm <br>
-                           Höhe:<br>
-                           <input class="inputTextPI" id="Height" name="Height" type="text" value="10" autocomplete="off">mm <br></span>	
-                       <span class="inputTextPI" id="CylinderForm">Durchmesser:<br>
-                           <input class="inputTextPI" id="Dia" name="Dia" type="text" value="10" autocomplete="off">mm <br></span>
-                       Wärmeleistung:<br>
-                       <input class="inputTextPI" id="Power" name="Power" type="text" value="10" autocomplete="off">W <br>
+                                        <!-- Radiobottons für Auswahl der Form -->
+                                        <!-- Runder Querschnitt -->
+                                            <label class="radioPI">Runder Querschnitt
+                                                <input type="radio" name="Shape" value="cylinder" checked="checked">
+                                                <span class="checkmarkRadioPI"></span>
+                                            </label>
+                                        <!-- end Runder Querschnitt -->
+
+                                        <!-- Rechteckiger Querschnitt -->
+                                            <label class="radioPI">Rechteckiger Querschnitt
+                                                <input type="radio" name="Shape" value="block">
+                                                <span class="checkmarkRadioPI"></span>
+                                            </label>
+                                        <!-- end Radiobottons für Auswahl der Form -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Material
+                                        </th>
+                                        <td>
+                                            <select class="selectPI" name="Material" autocomplete="off">
+                                                <option value="copper">Kupfer</option>
+                                                <option value="aluminium">Aluminium</option>
+                                                <option value="brass">Messing</option>
+                                                <option value="gold">Gold</option>
+                                                <option value="silver">Silber</option>
+                                                <option value="solder">Lötzinn</option>
+                                                <option value="iron">Eisen</option>		 
+                                                <option value="steel_low">niedriglegierter Stahl</option>
+                                                <option value="steel_heigh">hochlegierter Stahl</option>
+                                                <option value="FR4">FR4</option>
+                                                <option value="glass">Glas</option>
+                                                <option value="PE">PE</option>
+                                                <option value="PP">PP</option>
+                                                <option value="PVC">PVC</option>
+                                                <option value="silicone">Silikon</option>
+                                                <option value="manual">manuell</option>
+                                            </select><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Wärmeleitwert
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="ThermalConductivity" type="text" value="" autocomplete="off"> W/mK &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Länge
+                                        </th>
+                                        <td>                       
+                                            <input class="inputTextPI" id="Len" name="Len" type="text" value="10" autocomplete="off"> mm
+                                        </td>
+                                    </tr>
+                                    <tbody id="BlockForm" style="visibility:hidden;position:absolute">
+                                        <tr>
+                                            <th>
+                                                Breite
+                                            </th>
+                                            <td>
+                                                <input class="inputTextPI" id="Width" name="Width" type="text" value="10" autocomplete="off"> mm
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                Höhe
+                                            </th>
+                                            <td>
+                                                <input class="inputTextPI" id="Height" name="Height" type="text" value="10" autocomplete="off">mm <br>	
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                          
+                                    <tbody id="CylinderForm" style="visibility:hidden;position:absolute">
+                                        <tr>
+                                            <th>
+                                                Durchmesser
+                                            </th>
+                                            <td>
+                                                <input class="inputTextPI" id="Dia" name="Dia" type="text" value="10" autocomplete="off"> mm
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tr>
+                                        <th>
+                                            Wärmeleistung
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Power" name="Power" type="text" value="10" autocomplete="off"> W
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>                                                                                 
+                                        </th>
+                                        <td>
                        
-                       <!-- button with no function to simply update the script by tabbing out of the textbox -->
-                        <input class="buttonPI" name="Knopf" type="button" value="Berechnen">
-                    </span> 
+                                            <!-- button with no function to simply update the script by tabbing out of the textbox -->
+                                            <input class="buttonPI center-block" style="width: auto" name="Knopf" type="button" value="Berechnen">
+                                        </td>
+                                    </tr>
+                                </span>
+                        </table>
+                    </div>
                 </form>
             </div>
             
             <div class="col-lg-6 mb-4">
+                <h4>Ergebnisse</h4><br>
                 <span class="textPI">
-                    <h4>Ergebnisse</h4><br>
-                    Querschnitt: <span id="CrossSection"></span><br>
-                    Wärmewiderstand: <span id="ThermalResistance"></span><br>
-                    Temperaturdifferenz: <span id="TemperatureDrop"></span><br>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        Querschnitt
+                                    </th>
+                                    <td>
+                                        <span id="CrossSection"></span>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Wärmewiderstand
+                                    </th>
+                                    <td>
+                                        <span id="ThermalResistance"></span>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Temperaturdifferenz
+                                    </th>
+                                    <td>
+                                        <span id="TemperatureDrop"></span>
+                                    </td>
+                                </tr>
+                        </table>
+                    </div>
                 </span>
             </div>
             <div class="col-12 mb-4">
                 <h4>Erklärung zur Formel</h4>
-                fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
-                fdnsjkafhdsjkfhsdjhf
-                dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
-                hjdfhioffjiosdpjfa
+                <span class="textPI">
+                    fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
+                    fdnsjkafhdsjkfhsdjhf
+                    dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
+                    hjdfhioffjiosdpjfa
+                </span>
             </div>
             
-        </div>
+            </div>
     </div>
     
-    <!--Footer bar-->
+<!--Footer bar-->
     <div id="foot-placeholder"></div>
-    <script>
-        $(function(){
-            $("#foot-placeholder").load("../header/footer.html");
-        });
+        <script>
+    $(function(){
+      $("#foot-placeholder").load("../header/footer.html");
+    });
     </script>
-    <!--end of Footer bar-->
+<!--end of Footer bar-->
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    </body>
-    </body>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</body>
 </html>

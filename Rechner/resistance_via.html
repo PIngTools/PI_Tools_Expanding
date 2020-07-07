@@ -159,68 +159,194 @@ function Calc()
             </div>
             <div class="col-lg-6 mb-4">
                 <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
-                    <!-- Radiobottons für Auswahl der Widerstandsart -->
-                    <!-- Elektrischer Widerstand -->
-                    <label class="radioPI">Elektrischer Widerstand
-                        <input type="radio" name="ResType" value="elec" checked="checked">
-                        <span class="checkmarkRadioPI"></span>
-                    </label>
-                    <!-- end Elektrischer Widerstand -->
+                    
+                    <h4>Berechnung</h4><br>
+                    <div class="table-responsive">
+                        <table class="table tablePI">
+                            <tbody>
+                                <span class="textPI">
+                                    <tr>
+                                        <th>
+                                            Widerstandsart
+                                        </th>
+                                        <td>
+                                        <!-- Radiobottons für Auswahl der Widerstandsart -->
+                                            <!-- Elektrischer Widerstand -->
+                                            <label class="radioPI">Elektrischer Widerstand
+                                                <input type="radio" name="ResType" value="elec" checked="checked">
+                                                <span class="checkmarkRadioPI"></span>
+                                            </label>
+                                        <!-- end Elektrischer Widerstand -->
 
-                    <!-- Rechteckiger Wärmewiderstand -->
-                    <label class="radioPI">Wärmewiderstand
-                        <input type="radio" name="ResType" value="thermal">
-                        <span class="checkmarkRadioPI"></span>
-                    </label>
-                    <!-- end Rechteckiger Wärmewiderstand -->
-                <!-- end Radiobottons für Auswahl der Widerstandsart -->
+                                        <!-- Rechteckiger Wärmewiderstand -->
+                                            <label class="radioPI">Wärmewiderstand
+                                                <input type="radio" name="ResType" value="thermal">
+                                                <span class="checkmarkRadioPI"></span>
+                                            </label>
+                                        <!-- end Rechteckiger Wärmewiderstand -->
+                                        <!-- end Radiobottons für Auswahl der Widerstandsart -->
+                                        </td>
+                                    </tr>
 
-                    <span class="textPI">
-                        <span id="Electrical" style="visibility:visible"><br>Kupfertemperatur: <br>
-                            <input class="inputTextPI" id="Temperature" name="Temperature" type="text" value="20" autocomplete="off">°C <br>
-                            spezifischer elektrischer Widerstand:<br>
-                            <input class="inputTextPI" id="Resistivity" name="Resistivity" type="text" value="" disabled="true" autocomplete="off">&Omega;mm²/m
-                        </span> 
-                        <span id="Thermal" style="visibility:hidden;position:absolute">&nbsp;<br>Wärmeleitwert Kupfer:<br>
-                            <input class="inputTextPI" id="ThermalConductivity" type="text" value="355" disabled="true" autocomplete="off">W/mK
-                        </span> 
-                        <br>&nbsp;<br>
-                        Leiterplattenstärke:<br>
-                            <input class="inputTextPI" id="Length" name="Length" type="text" value="1.5" autocomplete="off">mm <br>
-                        Bohrdurchmesser:<br>
-                        <input class="inputTextPI" id="Dia" name="Dia" type="text" value="1" autocomplete="off">mm <br>
-                        Aufkupferung:<br> 
-                        <input class="inputTextPI" id="CopperThickness" name="CopperThickness" type="text" value="15" autocomplete="off">µm <br>
-                        Anzahl paralleler Vias:<br>
-                        <input class="inputTextPI" id="Nr" name="Nr" type="text" value="1" autocomplete="off"> <br>
-                        <span id="Electrical1" style="visibility:visible">Strom:<br>
-                            <input class="inputTextPI" id="Current" name="Current" type="text" value="1" autocomplete="off">A <br></span>	
-                        <span id="Thermal1" style="visibility:hidden;position:absolute">Wärmeleistung:<br>
-                            <input class="inputTextPI" id="Power" name="Power" type="text" value="1" autocomplete="off">W <br>
-                        </span>
-                    </span>
+                                    <tbody id="Electrical" style="visibility:hidden;position:absolute">
+                                        <tr>
+                                            <th>
+                                                Kupfertemperatur
+                                            </th>
+                                            <td>
+                                                <input class="inputTextPI" id="Temperature" name="Temperature" type="text" value="20" autocomplete="off"> °C 
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                Spezifischer elektrischer Widerstand
+                                            </th>
+                                            <td>
+                                                <input class="inputTextPI" id="Resistivity" name="Resistivity" type="text" value="" disabled="true" autocomplete="off"> &Omega;mm²/m   
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    
+                                    <tbody id="Thermal" style="visibility:hidden;position:absolute">
+                                        <tr>
+                                            <th>
+                                                Wärmeleitwert Kupfer
+                                            </th>
+                                            <td>
+                                                <input class="inputTextPI" id="ThermalConductivity" type="text" value="355" disabled="true" autocomplete="off"> W/mK
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tr>
+                                        <th>
+                                            Leiterplattenstärke
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Length" name="Length" type="text" value="1.5" autocomplete="off"> mm
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Bohrdurchmesser
+                                        </th>
+                                        <td>                       
+                                            <input class="inputTextPI" id="Dia" name="Dia" type="text" value="1" autocomplete="off"> mm
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Aufkupferung
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="CopperThickness" name="CopperThickness" type="text" value="15" autocomplete="off"> µm
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Anzahl paralleler Vias
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Nr" name="Nr" type="text" value="1" autocomplete="off">
+                                        </td>
+                                    </tr>
+                                    
+                                    <tbody id="Electrical1" style="visibility:hidden;position:absolute">
+                                        <tr>
+                                            <th>
+                                                Strom
+                                            </th>
+                                            <td>
+                                                <input class="inputTextPI" id="Current" name="Current" type="text" value="1" autocomplete="off"> A
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    
+                                    <tbody id="Thermal1" style="visibility:hidden;position:absolute">
+                                        <tr>
+                                            <th>
+                                                Wärmeleistung
+                                            </th>
+                                            <td>
+                                                <input class="inputTextPI" id="Power" name="Power" type="text" value="1" autocomplete="off"> W
+                                            </td>
+                                        </tr>
+                                    </tbody>   
+                                </span>
+                        </table>
+                    </div>
                 </form>
             </div>
             
             <div class="col-lg-6 mb-4">
+                <h4>Ergebnisse</h4><br>
                 <span class="textPI">
-                    <h4>Ergebnisse</h4><br>
-                    
-                    Querschnitt: <span id="CrossSection"></span><br>
-                    <span id="Electrical2" style="visibility:visible">Widerstand: <span id="Resistance"></span><br>
-                        Spannungsabfall: <span id="VoltageDrop"></span><br>
-                        Verlustleistung: <span id="PowerLoss"></span><br></span>
+                    <div class="table-responsive">
+                        <table class="table">
+                                <tr>
+                                    <th>
+                                        Querschnitt
+                                    </th>
+                                    <td>
+                                        <span id="CrossSection"></span>
+                                    </td>
+                                </tr>
+                                
+                            <tbody id="Electrical2" style="visibility:hidden;position:absolute">
+                                <tr>
+                                    <th>
+                                        Widerstand
+                                    </th>
+                                    <td>
+                                        <span id="Resistance"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Spannungsabfall
+                                    </th>
+                                    <td>
+                                        <span id="VoltageDrop"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Verlustleistung
+                                    </th>
+                                    <td>
+                                        <span id="PowerLoss"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
    
-                    <span id="Thermal2" style="visibility:hidden;position:absolute">Wärmewiderstand: <span id="ThermalResistance"></span><br>
-                        Temperaturdifferenz: <span id="TemperatureDiff"></span><br></span>
+                            <tbody id="Thermal2" style="visibility:hidden;position:absolute">
+                                <tr>
+                                    <th>
+                                        Wärmewiderstand
+                                    </th>
+                                    <td>
+                                        <span id="ThermalResistance"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Temperaturdifferenz
+                                    </th>
+                                    <td>
+                                        <span id="TemperatureDiff"></span>
+                                    </td>
+                                </tr>
+                        </table>
+                    </div>
                 </span>
             </div>
-                    <div class="col-12 mb-4">
+            <div class="col-12 mb-4">
                 <h4>Erklärung zur Formel</h4>
-                fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
-                fdnsjkafhdsjkfhsdjhf
-                dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
-                 hjdfhioffjiosdpjfa
+                <span class="textPI">
+                    fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
+                    fdnsjkafhdsjkfhsdjhf
+                    dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
+                    hjdfhioffjiosdpjfa
+                </span>
             </div>
             
             </div>
@@ -238,7 +364,6 @@ function Calc()
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    
 </body>
-    </body>
+</body>
 </html>

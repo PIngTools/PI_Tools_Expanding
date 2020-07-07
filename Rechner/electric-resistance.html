@@ -138,8 +138,9 @@ function Calc()
             <div class="col-lg-6 mb-4">
                 <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
 
+                    <h4>Berechnung</h4><br>
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table tablePI">
                             <tbody>
                                 <span class="textPI">
                                     <tr>
@@ -187,7 +188,7 @@ function Calc()
                                             Temperatur
                                         </th>
                                         <td>
-                                            <input class="inputTextPI" id="Temperature" name="Temperature" type="text" value="20" autocomplete="off">°C
+                                            <input class="inputTextPI" id="Temperature" name="Temperature" type="text" value="20" autocomplete="off"> °C
                                         </td>
                                     </tr>
                                     <tr>
@@ -195,7 +196,7 @@ function Calc()
                                             spezifischer Widerstand 
                                         </th>
                                         <td>
-                                            <input class="inputTextPI" id="Resistivity" name="Resistivity" type="text" value="" autocomplete="off">&Omega;mm²/m
+                                            <input class="inputTextPI" id="Resistivity" name="Resistivity" type="text" value="" autocomplete="off"> &Omega;mm²/m
                                         </td>
                                     </tr>
                                     <tr>
@@ -203,7 +204,7 @@ function Calc()
                                             Länge
                                         </th>
                                         <td>
-                                            <input class="inputTextPI" id="Length" name="Length" type="text" value="10" autocomplete="off">mm
+                                            <input class="inputTextPI" id="Length" name="Length" type="text" value="10" autocomplete="off"> mm
                                         </td>
                                     </tr>
                       
@@ -213,7 +214,7 @@ function Calc()
                                                 Breite
                                             </th>
                                             <td>
-                                                <input class="inputTextPI" id="Width" name="Width" type="text" value="1" autocomplete="off">mm 
+                                                <input class="inputTextPI" id="Width" name="Width" type="text" value="1" autocomplete="off"> mm 
                                             </td>
                                         </tr>
                                         <tr>
@@ -221,7 +222,7 @@ function Calc()
                                                 Höhe
                                             </th>
                                             <td>
-                                                <input class="inputTextPI" id="Height" name="Height" type="text" value="1" autocomplete="off">mm    
+                                                <input class="inputTextPI" id="Height" name="Height" type="text" value="1" autocomplete="off"> mm    
                                             </td>
                                         </tr>
                                     </tbody>
@@ -231,7 +232,7 @@ function Calc()
                                             <th>
                                                 Durchmesser
                                             </th>
-                                            <td><input class="inputTextPI" id="Dia" name="Dia" type="text" value="1" autocomplete="off">mm
+                                            <td><input class="inputTextPI" id="Dia" name="Dia" type="text" value="1" autocomplete="off"> mm
                                             </td>
                                         </tr>
                                     </tbody>
@@ -240,27 +241,31 @@ function Calc()
                                             Strom
                                         </th>
                                         <td>
-                                            <input class="inputTextPI" id="Current" name="Current" type="text" value="1" autocomplete="off">A
+                                            <input class="inputTextPI" id="Current" name="Current" type="text" value="1" autocomplete="off"> A
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                         
+                                         
+                                        </th>
+                                        <td>
+                                            <!-- button with no function to simply update the script by tabbing out of the textbox -->
+                                            <input class="buttonPI center-block" style="width: auto" name="Knopf" type="button" value="Berechnen">
                                         </td>
                                     </tr>
                                 </span>
-                            <tbody>
                         </table>
                     </div>
-                    
-                    <!-- button with no function to simply update the script by tabbing out of the textbox -->
-                    <input class="buttonPI" style="width: auto" name="Knopf" type="button" value="Berechnen">
                 </form>
             </div>
             
             <div class="col-lg-6 mb-4">
+                <h4>Ergebnisse</h4><br>
                 <span class="textPI">
-                    <h4>Ergebnisse</h4><br>
- 
                     <div class="table-responsive">
                         <table class="table">
-                            <tbody>
-                                <tr>
+                            <tr>
                                     <th>
                                         Querschnitt
                                     </th>
@@ -292,20 +297,21 @@ function Calc()
                                         <span id="PowerLoss"></span>
                                     </td>
                                 </tr>
-                            <tbody>
                         </table>
                     </div>
                 </span>
             </div>
             <div class="col-12 mb-4">
                 <h4>Erklärung zur Formel</h4>
-                fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
-                fdnsjkafhdsjkfhsdjhf
-                dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
-                 hjdfhioffjiosdpjfa
+                <span class="textPI">
+                    fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
+                    fdnsjkafhdsjkfhsdjhf
+                    dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
+                    hjdfhioffjiosdpjfa
+                </span>
             </div>
             
-            </div>
+        </div>
     </div>
     
 <!--Footer bar-->

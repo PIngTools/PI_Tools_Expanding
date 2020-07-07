@@ -65,7 +65,7 @@ Colors for PIingTools:
 
 html {
     background-color: #DCD6CF;
-font-family: sans-serif;
+    font-family: sans-serif;
     line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -97,6 +97,7 @@ h1, h2, h3, h4, h5, h6,
 h1, .h1 {
     color: #E3000F;
   font-size: 2.5rem;
+    font-weight: 300;
 }
 
 h2, .h2 {
@@ -337,12 +338,17 @@ a.linkPI {
     border-radius: 0.3rem;
 }
 
+.selectPI:hover{
+    background-color: #DCD6CF;
+    color: #57533E;
+}
+
 /* class for input text */
 .inputTextPI {
     font-size: 18px;
     color: #57533E;
     border-radius: 0.5rem;
-    border-width: medium;
+    border-width: 0.15rem;
 }
 
 /* class for Text written in calculators */
@@ -357,20 +363,31 @@ a.linkPI {
     color: #E3000F;
     background-color: white;
     border-radius: 0.5rem;
-    border-width: medium;
+    border-width: 0.2rem;
     border-color: #E3000F;
+    border-style: solid;
     margin-top: 0.8rem;
-    margin-left: 10rem;
+    padding: 0.5rem;
+}
+.buttonPI:hover{
+    background-color: #57533E;
+    border-color: #57533E;
+    color: white;
 }
 
 /* Table header*/
 th, .th {
     font-size: 19px;
     color: #57533E;
+    width: 50%;
 }
 
 /* Textinput verändern */
 input, .input{
     width: 6rem;
     text-align: end;
+}
+
+table, .tablePI {
+    
 }

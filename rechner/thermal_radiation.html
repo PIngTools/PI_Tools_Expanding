@@ -94,6 +94,7 @@ function Calc()
 </script>
 
 <body onload="javascript:Calc();">
+    
 	<div class="container">
         <div class="row">
             <div class="col-12 mb-4">
@@ -104,52 +105,128 @@ function Calc()
             
             <div class="col-lg-6 mb-4">
                 <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
-                    
-                <!-- Selectbox für Material -->
-                    <select class="selectPI" name="Material" autocomplete="off">
-                        <option value="plastic">Kunststoff</option>
-                        <option value="aluminium polished">Aluminium glänzend</option>
-                        <option value="aluminium anodised">Aluminium eloxiert</option>
-                        <option value="varnish">Lack</option>
-                        <option value="glass">Glas</option>
-                        <option value="paper">Papier</option>
-                        <option value="wood">Holz</option>
-                        <option value="water">Wasser flüssig</option>
-                        <option value="manual">manuell</option>
-                    </select><br>
-                <!-- end Selectbox für Material -->
+
+                    <h4>Berechnung</h4><br>
+                    <div class="table-responsive">
+                        <table class="table tablePI">
+                            <tbody>
+                                <span class="textPI">
+                                    <tr>
+                                        <th>
+                                            Material
+                                        </th>
+                                        <td>
+                                        <!-- Selectbox für Material -->
+                                            <select class="selectPI" name="Material" autocomplete="off">
+                                                <option value="plastic">Kunststoff</option>
+                                                <option value="aluminium polished">Aluminium glänzend</option>
+                                                <option value="aluminium anodised">Aluminium eloxiert</option>
+                                                <option value="varnish">Lack</option>
+                                                <option value="glass">Glas</option>
+                                                <option value="paper">Papier</option>
+                                                <option value="wood">Holz</option>
+                                                <option value="water">Wasser flüssig</option>
+                                                <option value="manual">manuell</option>
+                                            </select>
+                                        <!-- end Selectbox für Material -->
+                                        </td>
+                                    </tr>  
                  
-            <span class="textPI">        
-                Emissionsgrad:<br>
-                    <input class="inputTextPI" id="Emissivity" name="Emissivity" type="text" value="0.95" autocomplete="off"><br>
-                Oberflächentemperatur:<br>
-                    <input class="inputTextPI" id="SurfaceTemperature" name="SurfaceTemperature" type="text" value="100" autocomplete="off">°C <br>
-                Umgebungsflächentemperatur:<br>
-                    <input class="inputTextPI" id="AmbientTemperature" name="AmbientTemperature" type="text" value="25" autocomplete="off">°C <br>
-                Länge:<br>
-                    <input class="inputTextPI" id="Length" name="Length" type="text" value="10" autocomplete="off">mm <br>	  
-                Breite:<br>
-                    <input class="inputTextPI" id="Width" name="Width" type="text" value="10" autocomplete="off">mm <br>	  
-                    </span>
+                                    <tr>
+                                        <th>
+                                            Emissionsgrad
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Emissivity" name="Emissivity" type="text" value="0.95" autocomplete="off">
+                                        </td>
+                                    </tr>
+                                                     
+                                    <tr>
+                                        <th>
+                                            O&shy;ber&shy;fläch&shy;en&shy;tem&shy;per&shy;a&shy;tur
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="SurfaceTemperature" name="SurfaceTemperature" type="text" value="100" autocomplete="off"> °C
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th>
+                                            Um&shy;ge&shy;bungs&shy;flächen&shy;tem&shy;pe&shy;ra&shy;tur
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="AmbientTemperature" name="AmbientTemperature" type="text" value="25" autocomplete="off"> °C
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>
+                                            Länge
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Length" name="Length" type="text" value="10" autocomplete="off"> mm
+                                            </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th>
+                                            Breite
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Width" name="Width" type="text" value="10" autocomplete="off"> mm
+                                            </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th>
+                                        </th>
+                                        <td>
+                                            <!-- button with no function to simply update the script by tabbing out of the textbox -->
+                                            <input class="buttonPI center-block" style="width: auto" name="Knopf" type="button" value="Berechnen">
+                                        </td>
+                                    </tr>
+                                </span>
+                        </table>
+                    </div>
                 </form>
             </div>
             
-            <div class="col-lg-6 mb-4">
-                <span class="textPI">
-                    <h4>Ergebnisse:</h4><br>
-                        Oberfläche:<span id="Area"></span><br>
-                        abstrahlbare Leistung:<span id="RadiatedPower"></span><br>
-                        </span>
+        <div class="col-lg-6 mb-4">
+            <h4>Ergebnisse</h4><br>
+            <span class="textPI">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                    <th>
+                                        Oberfläche
+                                </th>
+                                <td>
+                                    <span id="Area"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    abstrahlbare Leistung
+                                </th>
+                                <td><span id="RadiatedPower"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </span>
             </div>
+                
             <div class="col-12 mb-4">
                 <h4>Erklärung zur Formel</h4>
-                fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
-                fdnsjkafhdsjkfhsdjhf
-                dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
-                 hjdfhioffjiosdpjfa
+                <span class="textPI">
+                    fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
+                    fdnsjkafhdsjkfhsdjhf
+                    dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
+                    hjdfhioffjiosdpjfa
+                </span>
             </div>
             
-            </div>
+        </div>
     </div>
     
 <!--Footer bar-->
