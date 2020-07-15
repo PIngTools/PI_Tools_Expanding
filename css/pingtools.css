@@ -10,6 +10,7 @@ Colors for PIingTools:
 	|Orange 	#E84D10
 	|Pink 		#E30A68
 	|Türkis 	#00AFA4
+    |Grün       #00B032
 	|
 	|Präsirot (PPP)	#A20000
 
@@ -36,9 +37,13 @@ Colors for PIingTools:
 .bg-PIturquoise{
     background-color: #00AFA4 !important;
 }
+.bg-PIgreen{
+    background-color: #00B032 !important;
+}
 .bg-PIredPP{
     background-color: #A20000 !important;
 }
+
 .fnt-PIred{
     text-align: 1.5rem;
     color: #E3000F !important;
@@ -58,14 +63,24 @@ Colors for PIingTools:
 .fnt-PIturquoise{
     color: #00AFA4 !important;
 }
+.fnt-PIgreen{
+    color: #00B032 !important;
+}
 .fnt-PIredPP{
     color: #A20000 !important;
+}
+
+.border-Ergebnis{
+    border-color: #E3000F;
+    border-radius: 0.3rem;
+    border-width: medium;
+    border-style: solid;
 }
 
 
 html {
     background-color: #DCD6CF;
-font-family: sans-serif;
+    font-family: sans-serif;
     line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -97,15 +112,19 @@ h1, h2, h3, h4, h5, h6,
 h1, .h1 {
     color: #E3000F;
   font-size: 2.5rem;
+    font-weight: 300;
 }
 
 h2, .h2 {
-  font-size: 2rem;
+    color: #E3000F;
+    font-size: 2rem;
+    font-weight: 300;
 }
 
 h3, .h3 {
     color: #57533E;
-  font-size: 1.75rem;
+    font-size: 1.75rem;
+    font-weight: 300;
 }
 
 h4, .h4 {
@@ -127,6 +146,21 @@ h6, .h6 {
   border-style: none;
 }
 
+/* Navigationbar*/
+.dropdown-menu{
+    
+}
+
+.dropdown-item{
+    color: #DCD6CF;
+}
+
+.dropdown-item:hover{
+    background-color: #57533E;
+    color: #E3000F;
+}
+
+/* end Navigationbar*/
 
 .card-top{
     display: inline-flex;
@@ -164,6 +198,14 @@ a.linkPI {
 }
 /* end Titelbild auf Website */
 
+/* Image fit to screen*/
+.imgfit {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+/* end Image fit to screen*/
+
 /* Radiobottons für PIngTools */
     /* Customize the label (the container) */
     .radioPI {
@@ -172,7 +214,7 @@ a.linkPI {
       padding-left: 35px;
       margin-bottom: 12px;
       cursor: pointer;
-      font-size: 22px;
+      font-size: 20px;
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
@@ -239,7 +281,7 @@ a.linkPI {
   padding-left: 35px;
   margin-bottom: 12px;
   cursor: pointer;
-  font-size: 22px;
+  font-size: 20px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -320,3 +362,73 @@ a.linkPI {
     </label>
     */
 /* end in html file eintragen */
+
+/* class for selectbox in PIngTools */
+.selectPI {
+    display: block;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin-bottom: 0.5rem;
+    font-size: 20px;
+    color: #57533E;
+    border-color: #E3000F;
+    border-width: medium;
+    border-radius: 0.3rem;
+}
+
+.selectPI:hover{
+    background-color: #DCD6CF;
+    color: #57533E;
+}
+
+/* class for input text */
+.inputTextPI {
+    font-size: 20px;
+    color: #57533E;
+    border-color: #E3000F;
+    border-radius: 0.3rem;
+    border-width: medium;
+    border-style: solid;
+    
+}
+
+/* class for Text written in calculators */
+.textPI {
+    color: #57533E;
+    font-size: 19px;
+}
+
+/* class for the style of bottons */
+.buttonPI {
+    font-size: 22px;
+    color: #E3000F;
+    background-color: white;
+    border-radius: 0.5rem;
+    border-width: 0.2rem;
+    border-color: #E3000F;
+    border-style: solid;
+    margin-top: 0.8rem;
+    padding: 0.5rem;
+}
+.buttonPI:hover{
+    background-color: #57533E;
+    border-color: #57533E;
+    color: white;
+}
+
+/* Table header*/
+th, .th {
+    font-size: 19px;
+    color: #57533E;
+    width: 50%;
+}
+
+/* Textinput verändern */
+input, .input{
+    width: 6rem;
+    text-align: end;
+}
+
+table, .tablePI {
+    
+}

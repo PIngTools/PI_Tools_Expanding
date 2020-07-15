@@ -1,5 +1,37 @@
-<html>
-<header></header>
+<!DOCTYPE html>
+<html lang="de">
+    
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Homepage ">
+  <meta name="author" content="Tristan Linnemeier">
+
+    <link rel="icon" type="image/png" href="/Bilder/Logo_pi_rgb.png">
+  <title>PIng Tools</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/css/pingtools.css" rel="stylesheet">
+
+    <script src="/vendor/jquery/jquery_sizzle.js"></script>
+    
+</head>
+    
+<body>
+        
+<!--Navigation bar-->
+    <div id="nav-placeholder"></div>
+        <script>
+    $(function(){
+      $("#nav-placeholder").load("../header/nav.html");
+    });
+    </script>
+<!--end of Navigation bar-->
+    
 <script src="calculators.js" type="text/javascript"></script>
 <script>
    
@@ -41,18 +73,114 @@ function Calc()
 </script>
 
 <body onload="javascript:Calc();">
-	<h1>Leiterplattenkapazität</h1>
-   Arbeitet man beim PCB-Layout mit größeren Kupferflächen, bilden sich teils nicht zu vernachlässigende Leiterplattenkapazitäten aus, 
-   insbesondere bei Multilayer-PCBs, bei denen die Kupferlagen sehr nahe beieinander liegen.
-	
-   <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
-      Länge:<input id="Length" name="Length" type="text" value="20" autocomplete="off">mm <br>
-	  Breite:<input id="Width" name="Width" type="text" value="20" autocomplete="off">mm <br>
-	  Layer-Abstand:<input id="Thickness" name="Thickness" type="text" value="1.5" autocomplete="off">mm <br></span>      
-	  Dielektrizitätskonstante:<input id="Er" name="Er" type="text" value="4.2" autocomplete="off"> (FR4: ca. 4.2) <br>	
-   </form>
-   Ergebnisse:<br>
-   Kapazität:<span id="Capacitance"></span><br>
-</body>
+	<div class="container">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <br>
+                <h2>Leiterplattenkapazität</h2>
+                <span class="textPI">
+                    Arbeitet man beim PCB-Layout mit größeren Kupferflächen, bilden sich teils nicht zu vernachlässigende Leiterplattenkapazitäten aus, insbesondere bei Multilayer-PCBs, bei denen die Kupferlagen sehr nahe beieinander liegen.
+                </span>
+            </div>
+                <div class="col-lg-6 mb-4">              
+                    <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
+                        <h4>Berechnung</h4><br>
+                    <div class="table-responsive">
+                        <table class="table tablePI">
+                            <span class="textPI">
+                                <tr>
+                                    <th>
+                                        Länge
+                                    </th>
+                                    <td>
+                                        <input id="Length" name="Length" type="text" value="20" autocomplete="off"> mm
+                                    </td>
+                                </tr>
+                                    
+                                <tr>
+                                    <th>
+                                        Breite
+                                    </th>
+                                    <td>
+                                        <input id="Width" name="Width" type="text" value="20" autocomplete="off"> mm
+                                    </td>
+                                </tr>
+                                    
+                                <tr>
+                                    <th>
+                                        Layer-Abstand
+                                    </th>
+                                    <td>
+                                        <input id="Thickness" name="Thickness" type="text" value="1.5" autocomplete="off"> mm     
+                                    </td>
+                                </tr>
+                                    
+                                <tr>
+                                    <th>
+                                        Dielektrizitätskonstante
+                                    </th>
+                                    <td>
+                                        <input id="Er" name="Er" type="text" value="4.2" autocomplete="off"> (FR4: ca. 4.2) 
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <th>
+                                    </th>
+                                    <td>
+                                        <!-- button with no function to simply update the script by tabbing out of the textbox -->
+                                        <input class="buttonPI center-block" style="width: auto" name="Knopf" type="button" value="Berechnen">
+                                    </td>
+                                </tr>
+                            </span>
+                        </table>
+                    </div>
+                </form>
+            </div>
+   
+            <div class="col-lg-6 mb-4">
+                <h4>Ergebnis</h4><br>
+                <span class="textPI">
+                    <div class="table-responsive border-Ergebnis">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Kapazität
+                                </th>
+                                <td>
+                                    <span id="Capacitance"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </span>
+            </div>
+            
+            <div class="col-12 mb-4">
+                <h4>Erklärung zur Formel</h4>
+                <span class="textPI">
+                    fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
+                    fdnsjkafhdsjkfhsdjhf
+                    dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
+                    hjdfhioffjiosdpjfa
+                </span>
+            </div>
+            
+        </div>
+    </div>
+    
+<!--Footer bar-->
+    <div id="foot-placeholder"></div>
+        <script>
+    $(function(){
+      $("#foot-placeholder").load("../header/footer.html");
+    });
+    </script>
+<!--end of Footer bar-->
 
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</body>
 </html>

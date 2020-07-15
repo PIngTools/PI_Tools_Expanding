@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="de">
+    
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Homepage ">
+  <meta name="author" content="Tristan Linnemeier">
+
+    <link rel="icon" type="image/png" href="/Bilder/Logo_pi_rgb.png">
+  <title>PIng Tools</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/css/pingtools.css" rel="stylesheet">
+
+    <script src="/vendor/jquery/jquery_sizzle.js"></script>
+    
+</head>
+    
+<body>
+        
+<!--Navigation bar-->
+    <div id="nav-placeholder"></div>
+        <script>
+    $(function(){
+      $("#nav-placeholder").load("../header/nav.html");
+    });
+    </script>
+<!--end of Navigation bar-->
+    
+<script src="calculators.js" type="text/javascript"></script>
+<script>
+   
+function Calc()
+{
+	var input = new Object();
+	var output = new Object();
+	material = document.InputForm.Material.value;
+	
+	if (material=="manual")
+	{
+		MatProp.Density = parseFloat(document.InputForm.Density.value);
+		MatProp.HeatCapacity = parseFloat(document.InputForm.HeatCapacity.value);
+		document.InputForm.Density.disabled=false;
+		document.InputForm.HeatCapacity.disabled=false;
+	}
+	else
+	{
+		MatProp = getMaterialProperties(material);
+		document.InputForm.Density.disabled=true;
+		document.InputForm.HeatCapacity.disabled=true;
+	}
+	
+	if (isNaN(MatProp.Density))
+	{
+		alert("Ungültige Eingabe der Dichte");
+		return;
+	}      
+		
+	if (isNaN(MatProp.HeatCapacity))
+	{
+		alert("Ungültige Eingabe der Wärmekapazität");
+		return;
+	}      
+
+	Length = parseFloat(document.InputForm.Length.value);
+	if (isNaN(Length))
+	{
+		alert("Ungültige Eingabe der Länge");
+		return;
+	}      
+	Width = parseFloat(document.InputForm.Width.value);
+	if (isNaN(Width))
+	{
+		alert("Ungültige Eingabe der Breite");
+		return;
+	}      
+	Height = parseFloat(document.InputForm.Height.value);
+	if (isNaN(Height))
+	{
+		alert("Ungültige Eingabe der Höhe");
+		return;
+	}	
+	Power = parseFloat(document.InputForm.Power.value);   
+	if (isNaN(Power))
+	{
+		alert("Ungültige Eingabe der Leistung");
+		return;
+	}      
+	Duration = parseFloat(document.InputForm.Duration.value);   
+	if (isNaN(Duration))
+	{
+		alert("Ungültige Eingabe der Dauer");
+		return;
+	}      
+	document.InputForm.Density.value = MatProp.Density.toFixed(2);      
+	document.InputForm.HeatCapacity.value = MatProp.HeatCapacity.toFixed(0);      
+	MatProp.Density = parseFloat(document.InputForm.Density.value);   
+	MatProp.HeatCapacity = parseFloat(document.InputForm.HeatCapacity.value);   
+
+	Volume = (Length * Width * Height);
+	Mass = (Length * Width * Height * MatProp.Density/1000);
+	Energy = (Power * Duration);
+	TempDiff = getAdiabaticTempDiff(Power, Duration, Length, Width, Height, MatProp.Density, MatProp.HeatCapacity);      
+	document.getElementById('Volume').innerHTML = scaleVolume(Volume/1E9,3);
+	document.getElementById('Mass').innerHTML = scalePhysicalValue(Mass/1000, "","g",3);
+	document.getElementById('Energy').innerHTML = scalePhysicalValue(Energy, "","J",3);      		
+	document.getElementById('TempDiff').innerHTML = scalePhysicalValue(TempDiff, "","K",3);      		
+}   
+</script>
+
+<body onload="javascript:Calc();">
+    
+	<div class="container">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <br>
+                <h2>Eigenerwärmung eines Bauteils (adiabatisch)</h2><br>
+                <span class="textPI">Wird in ein Bauteil Wärmeleistung eingebracht, erwärmt es sich. 
+                    Wie schnell es sich erwärmt, hängt von der eingebrachten Leistung, seiner Größe, 
+                    seiner Masse und seiner spezifischen Wärmekapazität ab. 
+                    Bei einem ungekühlten Transistor kann man z.B. errechnen, wieviel Energie man einbringen kann, 
+                    ohne dass sich seine Kupfergrundplatte auf mehr als 100°C erwärmt.<br>
+   
+                    Kühlung wird bei dieser Berechnung explizit NICHT berücksichtigt. 
+                    Ein reales Bauteil hat deshalb immer eine niedrigere Endtemperature als hier berechnet.<br>   
+   
+                    Die bereits eingetragenen Standardwerte dieses Beispiels passen zu einem typischen ungekühlten TO220-Transistor.
+                </span>
+   
+            </div>
+            <div class="col-lg-6 mb-4">
+                <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
+
+                    <h4>Berechnung</h4><br>
+                    <div class="table-responsive">
+                        <table class="table tablePI">
+                            <tbody>
+                                <span class="textPI">
+                                    <tr>
+                                        <th>
+                                            Material
+                                        </th>
+                                        <td>
+                                        <!-- Selectbox für Material -->
+                                            <select class="selectPI" name="Material" autocomplete="off">
+                                                <option value="copper">Kupfer</option>
+                                                <option value="aluminium">Aluminium</option>
+                                                <option value="brass">Messing</option>
+                                                <option value="gold">Gold</option>
+                                                <option value="silver">Silber</option>
+                                                <option value="iron">Eisen</option>		 
+                                                <option value="water">Wasser</option>		 
+                                                <option value="manual">manuell</option>
+                                            </select>
+                                        <!-- end Selectbox für Material -->
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th>
+                                            Dichte
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Density" name="Density" type="text" value="10" autocomplete="off" disabled="true"> mm
+                                        <td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th>
+                                            spezifische Wärmekapazität
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="HeatCapacity" name="HeatCapacity" type="text" value="10" autocomplete="off" disabled="true"> J/(kg*K)
+                                        </td>                                        
+                                    </tr>
+                        
+                                    <tr>
+                                        <th>
+                                            Länge
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Length" name="Length" type="text" value="12" autocomplete="off"> mm
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th>
+                                            Breite
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Width" name="Width" type="text" value="10" autocomplete="off"> mm
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th>
+                                            Höhe
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Height" name="Height" type="text" value="1" autocomplete="off"> mm 
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <th>
+                                            Leistung
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Power" name="Power" type="text" value="50" autocomplete="off"> W
+                                        </td>
+                                        </tr>
+                                    
+                                    <tr>
+                                        <th>
+                                            Dauer
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Duration" name="Duration" type="text" value="1" autocomplete="off"> s
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                        </th>
+                                        <td>
+                                            <!-- button with no function to simply update the script by tabbing out of the textbox -->
+                                            <input class="buttonPI center-block" style="width: auto" name="Knopf" type="button" value="Berechnen">
+                                        </td>
+                                    </tr>
+                                </span>
+                        </table>
+                    </div>
+                </form>
+            </div>
+   
+            <div class="col-lg-6 mb-4">
+                <h4>Ergebnisse</h4><br>
+                <span class="textPI">
+                    <div class="table-responsive border-Ergebnis">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    Volumen
+                                </th>
+                                <td>
+                                    <span id="Volume"></span>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th>
+                                    Masse
+                                </th>
+                                <td>
+                                    <span id="Mass"></span>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th>
+                                    Energie
+                                </th>
+                                <td>
+                                    <span id="Energy"></span>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th>
+                                    Temperaturerhöhung
+                                </th>
+                                <td>
+                                    <span id="TempDiff"></span>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                </span>
+            </div>
+            
+            <div class="col-12 mb-4">
+                <h4>Erklärung zur Formel</h4>
+                <span class="textPI">
+                    fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
+                    fdnsjkafhdsjkfhsdjhf
+                    dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
+                    hjdfhioffjiosdpjfa
+                </span>
+            </div>
+            
+        </div>
+    </div>
+    
+<!--Footer bar-->
+    <div id="foot-placeholder"></div>
+        <script>
+    $(function(){
+      $("#foot-placeholder").load("../header/footer.html");
+    });
+    </script>
+<!--end of Footer bar-->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</body>
+</html>
