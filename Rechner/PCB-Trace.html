@@ -97,7 +97,7 @@ function Calc()
             <div class="col-12 mb-4">
                 <br>
                 <h2>Eigenerwärmung einer Leiterbahn bei kurzen Strom-Pulsen</h2>
-                <span class="inputTextPI">
+                <span class="textPI">
                     Bei kurzen Strompulsen kann es interessant sein, wie stark sich die Leiterbahn durch diesen einzelnen Puls erwärmt. 
                     Für einen kurzen Zeitraum kann eine Leiterbahn ein Vielfaches des Nennstromes tragen. 
                     Wichtig ist, dass sich das Kupfer in dieser Zeit nicht zu stark erwärmt. <br>
@@ -120,7 +120,7 @@ function Calc()
                                             Länge
                                         </th>
                                         <td>
-                                            <input id="Len" name="Len" type="text" value="10" autocomplete="off"> mm
+                                            <input class="inputTextPI" id="Len" name="Len" type="text" value="10" autocomplete="off"> mm
                                         </td>
                                         
                                     <tr>
@@ -128,7 +128,7 @@ function Calc()
                                             Breite
                                         </th>
                                         <td>
-                                            <input id="Width" name="Width" type="text" value="1" autocomplete="off"> mm
+                                            <input class="inputTextPI" id="Width" name="Width" type="text" value="1" autocomplete="off"> mm
                                         </td>
                                     </tr>
                                     
@@ -137,7 +137,7 @@ function Calc()
                                             Dicke
                                         </th>
                                         <td>
-                                            <input id="Thickness" name="Thickness" type="text" value="35" autocomplete="off"> µm
+                                            <input class="inputTextPI" id="Thickness" name="Thickness" type="text" value="35" autocomplete="off"> µm
                                         </td>
                                     </tr>
                                     
@@ -146,7 +146,7 @@ function Calc()
                                             Strom
                                         </th>
                                         <td>
-                                            <input id="Current" name="Current" type="text" value="10" autocomplete="off"> A
+                                            <input class="inputTextPI" id="Current" name="Current" type="text" value="10" autocomplete="off"> A
                                         </td>
                                     </tr>
                                     
@@ -155,7 +155,15 @@ function Calc()
                                             Dauer
                                         </th>
                                         <td>
-                                            <input id="Duration" name="Duration" type="text" value="100" autocomplete="off"> ms
+                                            <input class="inputTextPI" id="Duration" name="Duration" type="text" value="100" autocomplete="off"> ms
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                        </th>
+                                        <td>
+                                            <!-- button with no function to simply update the script by tabbing out of the textbox -->
+                                            <input class="buttonPI center-block" style="width: auto" name="Knopf" type="button" value="Berechnen">
                                         </td>
                                     </tr>
                                 </span>
@@ -167,7 +175,7 @@ function Calc()
             <div class="col-lg-6 mb-4">
                 <h4>Ergebnisse</h4><br>
                 <span class="textPI">
-                    <div class="table-responsive">
+                    <div class="table-responsive border-Ergebnis">
                         <table class="table">
                             <tr>
                                 <th>
@@ -220,15 +228,6 @@ function Calc()
                                 </th>
                                 <td>
                                     <span id="TempDiff"></span>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <th>
-                                </th>
-                                <td>
-                                    <!-- button with no function to simply update the script by tabbing out of the textbox -->
-                                    <input class="buttonPI center-block" style="width: auto" name="Knopf" type="button" value="Berechnen">
                                 </td>
                             </tr>
                         </table>

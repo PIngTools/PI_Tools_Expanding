@@ -10,6 +10,7 @@ Colors for PIingTools:
 	|Orange 	#E84D10
 	|Pink 		#E30A68
 	|Türkis 	#00AFA4
+    |Grün       #00B032
 	|
 	|Präsirot (PPP)	#A20000
 
@@ -36,9 +37,13 @@ Colors for PIingTools:
 .bg-PIturquoise{
     background-color: #00AFA4 !important;
 }
+.bg-PIgreen{
+    background-color: #00B032 !important;
+}
 .bg-PIredPP{
     background-color: #A20000 !important;
 }
+
 .fnt-PIred{
     text-align: 1.5rem;
     color: #E3000F !important;
@@ -58,8 +63,18 @@ Colors for PIingTools:
 .fnt-PIturquoise{
     color: #00AFA4 !important;
 }
+.fnt-PIgreen{
+    color: #00B032 !important;
+}
 .fnt-PIredPP{
     color: #A20000 !important;
+}
+
+.border-Ergebnis{
+    border-color: #E3000F;
+    border-radius: 0.3rem;
+    border-width: medium;
+    border-style: solid;
 }
 
 
@@ -131,6 +146,21 @@ h6, .h6 {
   border-style: none;
 }
 
+/* Navigationbar*/
+.dropdown-menu{
+    
+}
+
+.dropdown-item{
+    color: #DCD6CF;
+}
+
+.dropdown-item:hover{
+    background-color: #57533E;
+    color: #E3000F;
+}
+
+/* end Navigationbar*/
 
 .card-top{
     display: inline-flex;
@@ -167,6 +197,14 @@ a.linkPI {
   background-repeat: no-repeat;
 }
 /* end Titelbild auf Website */
+
+/* Image fit to screen*/
+.imgfit {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+/* end Image fit to screen*/
 
 /* Radiobottons für PIngTools */
     /* Customize the label (the container) */
@@ -345,10 +383,13 @@ a.linkPI {
 
 /* class for input text */
 .inputTextPI {
-    font-size: 18px;
+    font-size: 20px;
     color: #57533E;
-    border-radius: 0.5rem;
-    border-width: 0.15rem;
+    border-color: #E3000F;
+    border-radius: 0.3rem;
+    border-width: medium;
+    border-style: solid;
+    
 }
 
 /* class for Text written in calculators */
