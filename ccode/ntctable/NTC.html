@@ -1,8 +1,8 @@
 <!doctype html>
 
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="utf-8">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
@@ -40,8 +40,7 @@
     </script>
 <!--end of Navigation bar-->
 
-    
-    
+
   <script>
   <!--
 	HTTP_GET_VARS=new Array();
@@ -262,69 +261,21 @@
 	}
   // -->
 
-</script>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 mb-4">
-                <br>
-                <h1>Automatisches Erzeugen einer NTC Tabelle</h1>  
 
-                <span class="textPI">Erzeugt den C Code zur Umrechnung von ADC Werte eines Spannungsteilers mit NTC in &deg;C</span>
-            </div>
-            <div class="col-12 mb-4">
-                <h4>Berechnung</h4><br>
+	if (GET('t')=='sh3'){
+		document.writeln('<h1>Automatisches Erzeugen einer NTC Tabelle nach Steinhart-Hart mit 3 Parametern</h1>');
+	}
+	else if (GET('t')=='sh4'){
+		document.writeln('<h1>Automatisches Erzeugen einer NTC Tabelle nach Steinhart-Hart mit 4 Parametern</h1>');
+	}
+	else{
+		document.writeln('<h1>Automatisches Erzeugen einer NTC Tabelle mit beta-Wert</h1>');
+	}
+	 
+   </script>
 
-            <!-- Berechnungsform -->
-                <h5>Berechnungsform</h5>
-                <div class="table-responsive">
-                <!-- Radiobottons für Auswahl der Berechnungsform -->
-                        <table class="table tablePI">
-                            <tbody>
-                                <span class="textPI">
-                                   <tr>
-                                       <td>
-                                           <!-- beta -->
-                                           <label class="radioPI">beta
-                                               <input type="radio" name="calcNTC" value="beta" checked="checked">
-                                               <span class="checkmarkRadioPI"></span>
-                                           </label>
-                                           <img class="imgfit" src="pic/ntc_beta.png" alt="NTC Berechnung mit beta">
-                                           <!-- end beta -->
-                                       </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <!-- Steinhart-hart3 -->
-                                            <label class="radioPI">Steinhart-hart3
-                                                <input type="radio" name="calcNTC" value="hart3">
-                                                <span class="checkmarkRadioPI"></span>
-                                            </label>
-                                            <img class="imgfit" src="pic/ntc_steinhart-hart3.png" alt="NTC Berechnung mit Steinhart-hart3">
-                                            <!-- end Steinhart-hart3 -->
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <!-- Steinhart-hart4 -->
-                                            <label class="radioPI">Steinhart-hart4
-                                                <input type="radio" name="calcNTC" value="hart4">
-                                                <span class="checkmarkRadioPI"></span>
-                                            </label>
-                                            <img class="imgfit" src="pic/ntc_steinhart-hart4.png" alt="NTC Berechnung mit Steinhart-hart4">
-                                            <!-- end Steinhart-hart3 -->
-                                        </td>
-                                    </tr>
-                                </span>
-                            </tbody>
-                    </table>
-                    <!-- end Radiobottons für Auswahl der Berechnungsform -->
-                </div>
-                
-            <!-- end Berechnungsform -->
-            </div>
-        </div>
-
-    <script>
+			 <p>Erzeugt den C Code zur Umrechnung von ADC Werte eines Spannungsteilers mit NTC in &deg;C</p>
+  <script>
 	if (GET('t')=='sh3'){
 		document.writeln('<img src="pic/ntc_steinhart-hart3.png" alt="NTC" />');
 		document.writeln('<br /><br />');
@@ -335,73 +286,42 @@
 		document.writeln('<br /><br />');
 		document.writeln('<form action="NTC.html?t=sh4" method="get">');
 	}
+	else{
+		document.writeln('<img src="pic/ntc_beta.png" alt="NTC" />');
+		document.writeln('<br /><br />');
+		document.writeln('<form action="NTC.html" method="get">');
+	}
 
-        </script>
-        
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    $('input[type="radio"]').click(function(){
-        var inputValue = $(this).attr("value");
-        var targetBox = $("." + inputValue);
-        $(".box").not(targetBox).hide();
-        $(targetBox).show();
-    });
-});
-</script>
-        
-        <div class="beta box col-lg-6 mb-4">
-        <form action="NTC.html" method="get">       
-        <div class="table-responsive">
-                        <table class="table tablePI">
-                            <tbody>
-                                <span class="textPI">
-                                    <tr>
-                                        <th>
-                                            Anzahl der Stützpunkte
-                                        </th>
-                                        <td>
-                                            <select class="selectPI" name="points" size="1">
-                                                <option value="8">8</option>
-                                                <option value="16">16</option>
-                                                <option value="32">32</option>
-                                                <option value="64">64</option>
-                                                <option value="128">128</option>
-                                                <option value="256">256</option>
-                                                <option value="512">512</option>
-                                                <option value="1024">1024</option>
-                                                <option value="2048">2048</option>
-                                                <option value="4096">4096</option>
+  <!--
+	document.writeln('Anzahl der St&uuml;tzpunkte:');
+    	document.writeln('<select name="points" size="1">');
+      	document.write('<option');if (points == 8) document.write(' selected');document.writeln('>8</option>');
+      	document.write('<option');if (points == 16) document.write(' selected');document.writeln('>16</option>');
+      	document.write('<option');if (points == 32) document.write(' selected');document.writeln('>32</option>');
+      	document.write('<option');if (points == 64) document.write(' selected');document.writeln('>64</option>');
+      	document.write('<option');if (points == 128) document.write(' selected');document.writeln('>128</option>');
+      	document.write('<option');if (points == 256) document.write(' selected');document.writeln('>256</option>');
+      	document.write('<option');if (points == 512) document.write(' selected');document.writeln('>512</option>');
+      	document.write('<option');if (points == 1024) document.write(' selected');document.writeln('>1024</option>');
+      	document.write('<option');if (points == 2048) document.write(' selected');document.writeln('>2048</option>');
+      	document.write('<option');if (points == 4096) document.write(' selected');document.writeln('>4096</option>');
+    	document.writeln('</select>');
+	
+	document.writeln('<br /><br /> ');
+	document.writeln('Einheit in &deg;C:<br /> ');
+	document.writeln('<input name="unit" type="text" size="10" maxlength="10" value="' + unit + '">');
+	document.writeln('<br /><br /> ');
 
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Einheit
-                                        </th>
-                                        <td>
-                                            <input class="inputTextPI" name="unit" type="text" size="10" maxlength="10" value="0.1"> &deg;C
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            ADC Aufl&ouml;sung
-                                        </th>
-                                        <td>
-                                            <select class="selectPI" name="resolution" size="1">
-                                                <option value="8">8 Bit</option>
-                                                <option value="10">10 Bit</option>
-                                                <option value="12">12 Bit</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </span>
-                            </tbody>
-            </table>
-            </div>
-        <script>
 
+	document.writeln('ADC Aufl&ouml;sung:');
+    	document.writeln('<select name="resolution" size="1">');
+      	document.write('<option');if (resolution == 8) document.write(' selected');document.writeln('>8 Bit</option>');
+      	document.write('<option');if (resolution == 10) document.write(' selected');document.writeln('>10 Bit</option>');
+      	document.write('<option');if (resolution == 12) document.write(' selected');document.writeln('>12 Bit</option>');
+    	document.writeln('</select>');
+	
+	document.writeln('<br /><br /> ');
+	
 	document.writeln('NTC Beschaltung: <br /> ');
 	document.write('<input type="radio" name="circuit" value="pulldown" ');if (circuit == 0) document.write(' checked="checked"');document.writeln('>NTC mit PullDown Widerstand<br/>');
     	document.write('<input type="radio" name="circuit" value="pullup" ');if (circuit == 1) document.write(' checked="checked"');document.writeln('>NTC mit PullUp Widerstand<br/>');
@@ -467,9 +387,10 @@ $(document).ready(function(){
   </script>
 
 	<input type="submit" value="Jetzt C-Code erzeugen" />
-</form>
-        </div>
-	
+
+	</form>
+
+
 	<script>
 	<!--
 	// Calculate the maximum ADC value
@@ -682,8 +603,7 @@ $(document).ready(function(){
 		}
   //-->  
 	</script>
-        
-    </div>
+    
 <!--Footer bar-->
     <div id="foot-placeholder"></div>
         <script>
@@ -697,7 +617,7 @@ $(document).ready(function(){
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    </body>
+
 </html>
  
 

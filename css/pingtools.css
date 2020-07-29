@@ -409,6 +409,8 @@ a.linkPI {
     border-style: solid;
     margin-top: 0.8rem;
     padding: 0.5rem;
+    width: auto;
+    height: auto;
 }
 .buttonPI:hover{
     background-color: #57533E;
@@ -431,4 +433,16 @@ input, .input{
 
 table, .tablePI {
     
+}
+
+pre, code {
+  font-family: monospace, monospace;
+}
+pre {
+  overflow: auto;
+}
+pre > code {
+  display: block;
+  padding: 1rem;
+  word-wrap: normal;
 }

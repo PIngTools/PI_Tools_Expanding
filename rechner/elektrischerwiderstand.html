@@ -3,7 +3,7 @@
     
 <head>
 
-  <meta charset="utf-8">
+ <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Homepage ">
   <meta name="author" content="Tristan Linnemeier">
@@ -18,6 +18,11 @@
   <link href="/css/pingtools.css" rel="stylesheet">
 
     <script src="/vendor/jquery/jquery_sizzle.js"></script>
+      <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
     
 </head>
     
@@ -31,53 +36,65 @@
     });
     </script>
 <!--end of Navigation bar-->
-    
+        
 <script src="calculators.js" type="text/javascript"></script>
 <script>
-
 function Calc()
 {
 	var input = new Object();
-	var ouput = new Object();
-      
+	var output = new Object();
+
 	material = document.InputForm.Material.value;
+	
 	if (material=="manual")
 	{
-		MatProp.ThermalConductivity = parseFloat(document.InputForm.ThermalConductivity.value);
-		document.InputForm.ThermalConductivity.disabled=false;		
+		MatProp.Resistivity = parseFloat(document.InputForm.Resistivity.value);
+		MatProp.TempCo = 0;
+		document.InputForm.Temperature.disabled=true;		
+		document.InputForm.Resistivity.disabled=false;		
 	}
 	else
 	{
 		MatProp = getMaterialProperties(material);
-		document.InputForm.ThermalConductivity.disabled=true;		
+		document.InputForm.Temperature.disabled=false;		
+		document.InputForm.Resistivity.disabled=true;		
 	}
 	  
-	if (isNaN(MatProp.ThermalConductivity))
+	if (isNaN(MatProp.Resistivity))
 	{
-		alert("Ungültige Eingabe des Wärmeleitwertes");
+		alert("UngÃ¼ltige Eingabe des spezifischen Widerstands");
 		return;
 	}      
-	input.Length = parseFloat(document.InputForm.Len.value);
+	input.Length = parseFloat(document.InputForm.Length.value);
 	if (isNaN(input.Length))
 	{
-		alert("Ungültige Eingabe der Länge");
+		alert("UngÃ¼ltige Eingabe der LeiterlÃ¤nge");
 		return;
 	}      
-	input.Power = parseFloat(document.InputForm.Power.value);   
-	if (isNaN(input.Power))
+	input.Current = parseFloat(document.InputForm.Current.value);   
+	if (isNaN(input.Current))
 	{
-		alert("Ungültige Eingabe der Wärmeleistung");
+		alert("UngÃ¼ltige Eingabe des Stroms");
 		return;
 	}      
+	Temperature = parseFloat(document.InputForm.Temperature.value);   
+	if (isNaN(Temperature))
+	{
+		alert("UngÃ¼ltige Eingabe der Temperatur");
+		return;
+	}      
+	input.Resistivity = MatProp.Resistivity*(1+MatProp.TempCo*(Temperature-20));
+	document.InputForm.Resistivity.value = input.Resistivity.toFixed(4);      
+
 	if (document.InputForm.Shape[0].checked)
 	{
-		input.diameter = parseFloat(document.InputForm.Dia.value);
-		if (isNaN(input.diameter))
+		Diameter = parseFloat(document.InputForm.Dia.value);
+		if (isNaN(Diameter))
 		{
-			alert("Ungültige Eingabe des Durchmessers");
+			alert("UngÃ¼ltige Eingabe des Leiterdurchmessers");
 			return;
 		}      
-		input.CrossSection = (input.diameter/2000)*(input.diameter/2000)*3.1415926536;
+		input.CrossSection = (Diameter/2)*(Diameter/2)*3.1415926536;
 		document.getElementById('BlockForm').style.visibility='hidden';
 		document.getElementById('BlockForm').style.position='absolute';
 		document.getElementById('CylinderForm').style.visibility='visible';	
@@ -85,49 +102,47 @@ function Calc()
 	}	
 	else if (document.InputForm.Shape[1].checked)
 	{
-		input.width = parseFloat(document.InputForm.Width.value);
-		if (isNaN(input.width))
+		Width = parseFloat(document.InputForm.Width.value);
+		if (isNaN(Width))
 		{
-			alert("Ungültige Eingabe der Breite");
+			alert("UngÃ¼ltige Eingabe der Leiterbreite");
 			return;
 		}      
-		input.height = parseFloat(document.InputForm.Height.value);
-		if (isNaN(input.height))
+		Height = parseFloat(document.InputForm.Height.value);
+		if (isNaN(Height))
 		{
-			alert("Ungültige Eingabe der Höhe");
+			alert("UngÃ¼ltige Eingabe der LeiterhÃ¶he");
 			return;
 		}
-		input.CrossSection = input.height/1000 * input.width/1000;  
+		input.CrossSection = Height * Width;  
 		document.getElementById('BlockForm').style.visibility='visible';
 		document.getElementById('BlockForm').style.position='static';
 		document.getElementById('CylinderForm').style.visibility='hidden';
 		document.getElementById('CylinderForm').style.position='absolute';	
 	}
-	
-	
-	
-	input.ThermalConductivity = MatProp.ThermalConductivity;
-	document.InputForm.ThermalConductivity.value = input.ThermalConductivity.toFixed(2);      		
-	output = getThermalResistance(input);
-  
+	output = getResistance(input);
+
 	document.getElementById('CrossSection').innerHTML = output.CrossSectionStr;
-	document.getElementById('ThermalResistance').innerHTML = output.ThermalResistanceStr;
-	document.getElementById('TemperatureDrop').innerHTML = output.TemperatureDropStr;
-}
-     
+	document.getElementById('Resistance').innerHTML = output.ResistanceStr;
+	document.getElementById('VoltageDrop').innerHTML = output.VoltageDropStr;
+	document.getElementById('PowerLoss').innerHTML = output.PowerLossStr;      
+	}
+   
+   
 </script>
 
 <body onload="javascript:Calc();">
+    
     <div class="container">
         <div class="row">
             <div class="col-12 mb-4">
                 <br>
-                <h2>Thermischer Widerstand</h2>
-                <h3>Berechnung des Wärmewiderstandes von Zylindern und Quadern</h3>
+                <h2>Elektrischer Widerstand</h2>
+                <h3>Berechnung des elektrischen Widerstands von Zylindern und Quadern verschiedener Materialien.</h3>
             </div>
             <div class="col-lg-6 mb-4">
                 <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
-                    
+
                     <h4>Berechnung</h4><br>
                     <div class="table-responsive">
                         <table class="table tablePI">
@@ -138,21 +153,19 @@ function Calc()
                                             Form
                                         </th>
                                         <td>
-                    
-                                        <!-- Radiobottons für Auswahl der Form -->
-                                        <!-- Runder Querschnitt -->
+                                        <!-- Radiobottons fÃ¼r Auswahl der Form -->
+                                            <!-- Runder Querschnitt -->
                                             <label class="radioPI">Runder Querschnitt
                                                 <input type="radio" name="Shape" value="cylinder" checked="checked">
                                                 <span class="checkmarkRadioPI"></span>
                                             </label>
                                         <!-- end Runder Querschnitt -->
-
                                         <!-- Rechteckiger Querschnitt -->
                                             <label class="radioPI">Rechteckiger Querschnitt
                                                 <input type="radio" name="Shape" value="block">
                                                 <span class="checkmarkRadioPI"></span>
                                             </label>
-                                        <!-- end Radiobottons für Auswahl der Form -->
+                                            <!-- end Radiobottons fÃ¼r Auswahl der Form -->
                                         </td>
                                     </tr>
                                     <tr>
@@ -160,57 +173,61 @@ function Calc()
                                             Material
                                         </th>
                                         <td>
+                                            <!-- Selectbox fÃ¼r Material -->
                                             <select class="selectPI" name="Material" autocomplete="off">
                                                 <option value="copper">Kupfer</option>
                                                 <option value="aluminium">Aluminium</option>
                                                 <option value="brass">Messing</option>
                                                 <option value="gold">Gold</option>
                                                 <option value="silver">Silber</option>
-                                                <option value="solder">Lötzinn</option>
-                                                <option value="iron">Eisen</option>		 
-                                                <option value="steel_low">niedriglegierter Stahl</option>
-                                                <option value="steel_heigh">hochlegierter Stahl</option>
-                                                <option value="FR4">FR4</option>
-                                                <option value="glass">Glas</option>
-                                                <option value="PE">PE</option>
-                                                <option value="PP">PP</option>
-                                                <option value="PVC">PVC</option>
-                                                <option value="silicone">Silikon</option>
+                                                <option value="solder">LÃ¶tzinn</option>
+                                                <option value="iron">Eisen</option>
+                                                <option value="steel">Stahl</option>		 
                                                 <option value="manual">manuell</option>
                                             </select><br>
+                                            <!-- end Selectbox fÃ¼r Material -->
                                         </td>
-                                    </tr>
+                                    </tr>        
                                     <tr>
                                         <th>
-                                            Wärmeleitwert
+                                            Temperatur
                                         </th>
                                         <td>
-                                            <input class="inputTextPI" id="ThermalConductivity" type="text" value="" autocomplete="off"> W/mK &nbsp;
+                                            <input class="inputTextPI" id="Temperature" name="Temperature" type="text" value="20" autocomplete="off"> Â°C
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            Länge
+                                            spezifischer Widerstand 
                                         </th>
-                                        <td>                       
-                                            <input class="inputTextPI" id="Len" name="Len" type="text" value="10" autocomplete="off"> mm
+                                        <td>
+                                            <input class="inputTextPI" id="Resistivity" name="Resistivity" type="text" value="" autocomplete="off"> &Omega;mmÂ²/m
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <th>
+                                            LÃ¤nge
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Length" name="Length" type="text" value="10" autocomplete="off"> mm
+                                        </td>
+                                    </tr>
+                      
                                     <tbody id="BlockForm" style="visibility:hidden;position:absolute">
                                         <tr>
                                             <th>
                                                 Breite
                                             </th>
                                             <td>
-                                                <input class="inputTextPI" id="Width" name="Width" type="text" value="10" autocomplete="off"> mm
+                                                <input class="inputTextPI" id="Width" name="Width" type="text" value="1" autocomplete="off"> mm 
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>
-                                                Höhe
+                                                HÃ¶he
                                             </th>
                                             <td>
-                                                <input class="inputTextPI" id="Height" name="Height" type="text" value="10" autocomplete="off">mm <br>	
+                                                <input class="inputTextPI" id="Height" name="Height" type="text" value="1" autocomplete="off"> mm    
                                             </td>
                                         </tr>
                                     </tbody>
@@ -220,24 +237,24 @@ function Calc()
                                             <th>
                                                 Durchmesser
                                             </th>
-                                            <td>
-                                                <input class="inputTextPI" id="Dia" name="Dia" type="text" value="10" autocomplete="off"> mm
+                                            <td><input class="inputTextPI" id="Dia" name="Dia" type="text" value="1" autocomplete="off"> mm
                                             </td>
                                         </tr>
                                     </tbody>
                                     <tr>
                                         <th>
-                                            Wärmeleistung
+                                            Strom
                                         </th>
                                         <td>
-                                            <input class="inputTextPI" id="Power" name="Power" type="text" value="10" autocomplete="off"> W
+                                            <input class="inputTextPI" id="Current" name="Current" type="text" value="1" autocomplete="off"> A
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>                                                                                 
+                                        <th>
+                                         
+                                         
                                         </th>
                                         <td>
-                       
                                             <!-- button with no function to simply update the script by tabbing out of the textbox -->
                                             <input class="buttonPI center-block" style="width: auto" name="Knopf" type="button" value="Berechnen">
                                         </td>
@@ -253,29 +270,36 @@ function Calc()
                 <span class="textPI">
                     <div class="table-responsive border-Ergebnis">
                         <table class="table">
-                            <tbody>
-                                <tr>
+                            <tr>
                                     <th>
                                         Querschnitt
                                     </th>
                                     <td>
                                         <span id="CrossSection"></span>
-                                        </td>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        Wärmewiderstand
+                                        Widerstand
                                     </th>
                                     <td>
-                                        <span id="ThermalResistance"></span>
-                                        </td>
+                                        <span id="Resistance"></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        Temperaturdifferenz
+                                        Spannungsabfall
                                     </th>
                                     <td>
-                                        <span id="TemperatureDrop"></span>
+                                        <span id="VoltageDrop"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Verlustleistung
+                                    </th>
+                                    <td>
+                                        <span id="PowerLoss"></span>
                                     </td>
                                 </tr>
                         </table>
@@ -283,16 +307,16 @@ function Calc()
                 </span>
             </div>
             <div class="col-12 mb-4">
-                <h4>Erklärung zur Formel</h4>
+                <h4>ErklÃ¤rung zur Formel</h4>
                 <span class="textPI">
-                    fhdsfuioahdoaiösdfujopidfüaiosdfaidfosjkls
+                    fhdsfuioahdoaiÃ¶sdfujopidfÃ¼aiosdfaidfosjkls
                     fdnsjkafhdsjkfhsdjhf
                     dsfnjifidjkhdfiufghiosdffd bhfjdihasdfiojfsd
                     hjdfhioffjiosdpjfa
                 </span>
             </div>
             
-            </div>
+        </div>
     </div>
     
 <!--Footer bar-->
@@ -304,9 +328,6 @@ function Calc()
     </script>
 <!--end of Footer bar-->
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </body>
 </html>
