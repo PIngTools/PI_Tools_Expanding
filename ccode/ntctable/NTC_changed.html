@@ -1,0 +1,703 @@
+<!doctype html>
+
+<html lang="de">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <link rel="icon" type="image/png" href="/Bilder/Logo_pi_rgb.png">
+  <title>NTC code generator | PIng Tools</title>
+  <meta name="description" content="NTC code generator">
+  <meta name="author" content="Gerd Bartelt, Tristan Linnemeier">
+  
+
+  <!-- Include required JS files -->
+  <link href="styles_ntc/shCore.css" rel="stylesheet" type="text/css" />
+  <link href="styles_ntc/shThemeDefault.css" rel="stylesheet" type="text/css" />
+  
+  <script src="scripts_ntc/shCore.js"></script>
+  <script src="scripts_ntc/shBrushCpp.js"></script>
+
+      <!-- Bootstrap core CSS -->
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/css/pingtools.css" rel="stylesheet">
+
+    <script src="/vendor/jquery/jquery_sizzle.js"></script>
+
+</head>
+<body>
+    <script>    
+    function radio_click() {
+            if (document.InputForm.calcNTC[0].checked) {
+                document.getElementById('betaBlock').style.display = "block";    
+            } else {
+                document.getElementById('betaBlock').style.display = "none";
+            }
+        }
+    </script>
+
+    <script>
+   /*     function CCode(){ */
+        // Calculate the maximum ADC value
+	var max_adc = 256;
+	if (resolution == 10)
+		max_adc = 1024;
+	if (resolution == 12)
+		max_adc = 4096;
+        
+        
+        calcMethod = beta;
+
+	// Calculate the step from one point to an other
+	adc_step = max_adc / points;
+	adc_stepmask = bit2stepmask(adc_step);
+
+		if (GET('points') && GET('resolution') && GET('circuit') && Number(GET('points'))) {
+			tablevals = new Array(points+1);
+
+			var column = 0;
+			var adc_val;
+			var resistance;
+			var temperature;
+			var t0 = -273.15;
+			var tn = 25.0 -t0;
+			var is_signed = 0;
+			var is_int = 0;
+			var ipadd = 1;
+			if (nointerpol)
+				ipadd = 0;
+
+
+			function adc2temp(adc_v) {
+				if (circuit == 0)
+					resistance = resistor / (max_adc/(max_adc - adc_v - 1) - 1.0);
+				else
+					resistance = resistor / (max_adc/adc_v - 1.0);
+
+				if (calcMethod =='hart3'){
+					return resistance2temp_sh3(resistance);
+				}
+				else if (calcMethod =='hart4'){
+					return resistance2temp_sh4(resistance);
+				}
+				else{
+					return resistance2temp_beta(resistance);
+				}
+	
+					
+			}
+			
+			function f2i(f){
+				if (f >= 0)
+					return Math.floor(f);
+				else
+					return Math.ceil(f);
+			}
+
+			function adc2temp_table(adc_v) {
+				
+				var p1,p2;
+				p1 = tablevals[ f2i(adc_v / adc_step)  ];
+				p2 = tablevals[ f2i(adc_v / adc_step)+1];
+				return p1 + f2i(( (p2-p1) * (adc_v & adc_stepmask) ) / adc_step);
+			}
+
+			
+			for (var i =0; i<(points+ipadd); i++) {
+ 
+				temperature = adc2temp(i*adc_step);	
+				temperature = Math.round(temperature / unit);
+
+				tablevals[i] = temperature;
+
+			}
+		
+			// Correct the first and the last entry
+			tablevals[0] = 	tablevals[1] - (tablevals[2] -tablevals[1]);		
+			tablevals[points-1+ipadd] = 	tablevals[points-2+ipadd] - (tablevals[points-3+ipadd] -tablevals[points-2+ipadd]);		
+
+			var maxerror = 0.0;
+			var terror = 0.0;
+			for (var i=1 ; i < (max_adc-1); i++) {
+
+				temperature =  adc2temp(i);
+				if (( temperature >= tmin) && (temperature < tmax)) {
+					terror = Math.abs(adc2temp_table(i)*unit-temperature);
+					if (terror > maxerror)
+						maxerror = terror;
+				}
+			}
+			var smaxerror;
+			smaxerror = maxerror.toFixed(3);
+            document.getElementById('SmaxErrorOut').innerHTML = output.smaxerror;
+
+			if ((tablevals[0] < 0) || (tablevals[points-1+ipadd] < 0))
+				is_signed = 1;
+			
+			if (is_signed) {
+				if ((tablevals[0] < -128) || (tablevals[points-1+ipadd] < -128))
+					is_int = 1;
+				if ((tablevals[0] > 127) || (tablevals[points-1+ipadd] > 127))
+					is_int = 1;
+			}
+			else {
+				if ((tablevals[0] > 255) || (tablevals[points-1+ipadd] > 255))
+					is_int = 1;
+			}
+
+/*			if (!nointerpol) {
+				document.writeln('<br /><br />Der Fehler durch die Verwendung einer Tabelle betr&auml;gt:' + smaxerror + '&deg;C.<br />');
+			} */
+			document.writeln('<br /><br />C-Code: <br />');
+			document.writeln('<div>');
+			document.writeln('<pre class="brush: cpp">');
+			
+		
+
+			document.writeln('/**');
+			document.writeln('* Die NTC Tabelle, bestehend aus ' + (points+ipadd) + ' Temperaturst&uuml;tzpunkten.');
+			document.writeln('* Einheit:'+ unit + ' &deg;C');
+			document.writeln('*');
+			document.writeln('*/');
+			
+			var temptype = "";			
+			if (!is_signed)
+				temptype = "unsigned ";
+
+			if (is_int)
+				temptype+= "int ";
+			else
+				temptype+= "char ";
+
+			document.writeln(temptype + 'NTC_table['+ (points+ipadd) +'] = {');
+			document.write('  ');
+
+			for (var i =0; i<(points+ipadd); i++) {
+				if (i != 0) { 
+					document.write(', ');
+					column +=2;
+				}
+
+				// columns size: max 80 
+				if (column > 40) {
+					column = 0;
+					document.writeln('');
+					document.write('  ');
+				}
+
+				column += String(tablevals[i]).length;
+				document.write(tablevals[i]);
+			}
+		
+
+			document.writeln('');
+			document.writeln('};');
+
+
+
+			document.writeln('');
+			document.writeln('');
+			document.writeln('');
+			document.writeln('/**');
+			document.writeln('* \\brief    Konvertiert das ADC Ergebnis in einen Temperaturwert.');
+			document.writeln('*');
+			if (!nointerpol) {
+				document.writeln('*           Mit p1 und p2 wird der St&uuml;tzpunkt direkt vor und nach dem');
+				document.writeln('*           ADC Wert ermittelt. Zwischen beiden St&uuml;tzpunkten wird linear');
+				document.writeln('*           interpoliert. Der Code ist sehr klein und schnell.');
+				document.writeln('*           Es wird lediglich eine Ganzzahl-Multiplikation verwendet.');
+				document.writeln('*           Die Division kann vom Compiler durch eine Schiebeoperation');
+				document.writeln('*           ersetzt werden.');
+				document.writeln('*');
+				document.writeln('*           Im Temperaturbereich von '+ tmin + '&deg;C bis '+ tmax + '&deg;C betr&auml;gt der Fehler');
+				document.writeln('*           durch die Verwendung einer Tabelle '+ smaxerror + '&deg;C');
+			} else {
+				document.writeln('*           Die Temperaturwerte werden direkt aus der Tabelle gelesen.');
+			}
+
+			document.writeln('*');
+			document.writeln('* \\param    adc_value  Das gewandelte ADC Ergebnis');
+			document.writeln('* \\return              Die Temperatur in '+ unit + ' &deg;C');
+			document.writeln('*');
+			document.writeln('*/');
+
+			document.writeln(temptype + 'NTC_ADC2Temperature(' + adctype + 'adc_value){');
+			document.writeln('');
+
+			if (!nointerpol) {
+				document.writeln('  ' + temptype + 'p1,p2;');
+				document.writeln('  /* St&uuml;tzpunkt vor und nach dem ADC Wert ermitteln. */');
+				document.writeln('  p1 = NTC_table[ (adc_value >> ' + div2shift(adc_step) + ')  ];');
+				document.writeln('  p2 = NTC_table[ (adc_value >> ' + div2shift(adc_step) + ')+1];');
+				document.writeln('');
+				document.writeln('  /* Zwischen beiden Punkten linear interpolieren. */');
+				document.write('  return p1 + ( (p2-p1) * (adc_value & ' +bit2mask(adc_step, resolution > 8)+') ) ');
+				if (is_signed)			
+					document.writeln('/ ' + adc_step + ';');
+				else
+					document.writeln('/ ' + div2shift(adc_step) + ';');
+
+			} else {
+				document.writeln('  /* Werte direkt aus der Tabelle lesen. */');
+				document.writeln('  return NTC_table[ adc_value ];');
+			}
+
+			document.writeln('};');
+
+			document.writeln('</pre>');
+
+			document.writeln('</div>');
+			SyntaxHighlighter.all()
+/*		}  */
+            }
+  //-->  
+	</script>
+    
+    
+<body onload="javascript:CCode();" onload="javascript: radio_click();">
+    
+    <!--Navigation bar-->
+    <div id="nav-placeholder"></div>
+        <script>
+    $(function(){
+      $("#nav-placeholder").load("/header/nav.html");
+    });
+    </script>
+<!--end of Navigation bar-->
+
+    
+    
+  <script>
+  <!--
+	HTTP_GET_VARS=new Array();
+	strGET=document.location.search.substr(1,document.location.search.length);
+	if(strGET!='') {
+		gArr=strGET.split('&');
+		for(i=0;i<gArr.length;++i){
+			v='';vArr=gArr[i].split('=');
+			if(vArr.length>1){v=vArr[1];}
+			HTTP_GET_VARS[unescape(vArr[0])]=unescape(v);
+        }
+    }
+ 
+	function GET(v) {
+		if(!HTTP_GET_VARS[v]){return 'undefined';}
+		return HTTP_GET_VARS[v].replace(/,/, ".");
+	}
+ 
+ 	var t0 = -273.15;
+	var tn = 25.0 -t0;
+	
+	function resistance2temp_beta(resistance) {
+		return beta*tn/(beta+Math.log(resistance/r25)*tn) + t0;	
+	}
+	
+	function resistance2temp_sh3(resistance) {
+		return 1/ (par_A + par_B*Math.pow(Math.log(resistance),1) + par_C*Math.pow(Math.log(resistance),3) )+t0;
+	}
+	
+	function resistance2temp_sh4(resistance) {
+		return 1/ (par_A + par_B*Math.pow(Math.log(resistance/r25),1) + par_C*Math.pow(Math.log(resistance/r25),2)+ par_D*Math.pow(Math.log(resistance/r25),3) )+t0;
+	}
+ 
+	function div2shift(v) {
+		if (v == 1) return 0;
+		if (v == 2) return 1;
+		if (v == 4) return 2;
+		if (v == 8) return 3;
+		if (v == 16) return 4;
+		if (v == 32) return 5;
+		if (v == 64) return 6;
+		if (v == 128) return 7;
+		if (v == 256) return 8;
+		if (v == 512) return 9;
+		if (v == 1024) return 10;
+		if (v == 2048) return 11;
+		if (v == 4096) return 12;
+		return 0;
+	}
+
+	function bit2mask(v, is_int) {
+		if (is_int) {
+			if (v == 1) return "0x000F";
+			if (v == 2) return "0x0001";
+			if (v == 4) return "0x0003";
+			if (v == 8) return "0x0007";
+			if (v == 16) return "0x000F";
+			if (v == 32) return "0x001F";
+			if (v == 64) return "0x003F";
+			if (v == 128) return "0x007F";
+			if (v == 256) return "0x00FF";
+			if (v == 512) return "0x01FF";
+			if (v == 1024) return "0x03FF";
+			if (v == 2048) return "0x07FF";
+			if (v == 4096) return "0x0FFF";
+		}
+		else
+			if (v == 1) return "0x0F";
+			if (v == 2) return "0x01";
+			if (v == 4) return "0x03";
+			if (v == 8) return "0x07";
+			if (v == 16) return "0x0F";
+			if (v == 32) return "0x1F";
+			if (v == 64) return "0x3F";
+			if (v == 128) return "0x7F";
+			if (v == 256) return "0xFF";
+			if (v == 512) return "0x01FF";
+			if (v == 1024) return "0x03FF";
+			if (v == 2048) return "0x07FF";
+			if (v == 4096) return "0x0FFF";
+	}
+
+	function bit2stepmask(v) {
+			if (v == 1) return 0x000F;
+			if (v == 2) return 0x0001;
+			if (v == 4) return 0x0003;
+			if (v == 8) return 0x0007;
+			if (v == 16) return 0x000F;
+			if (v == 32) return 0x001F;
+			if (v == 64) return 0x003F;
+			if (v == 128) return 0x007F;
+			if (v == 256) return 0x00FF;
+			if (v == 512) return 0x01FF;
+			if (v == 1024) return 0x03FF;
+			if (v == 2048) return 0x07FF;
+			if (v == 4096) return 0x0FFF;
+	}
+
+	var adc_step;
+	var adc_stepmask;
+	var nointerpol = 0;
+
+	var circuit = 1;
+	if (GET('circuit') == 'pulldown')
+		circuit = 0;
+	if (GET('circuit') == 'pullup')
+		circuit = 1;
+
+
+	var points;
+	points = Number(GET('points'));
+	if (points < 8)
+		points = 8;
+	if (points > 4096)
+		points = 4096;
+
+	var resolution = 8;
+	if (GET('resolution') == '8+Bit')
+		resolution = 8;
+				
+	if (GET('resolution') == '10+Bit')
+		resolution = 10;
+				
+	if (GET('resolution') == '12+Bit')
+		resolution = 12;
+
+
+	if ((resolution == 8) && (points >= 256)) {
+		nointerpol = 1;
+		points = 256;
+	}
+
+	if ((resolution == 10) && (points >= 1024)) {
+		nointerpol = 1;
+		points = 1024;
+	}
+
+	if ((resolution == 12) && (points >= 4096)) {
+		nointerpol = 1;
+		points = 4096;
+	}
+
+	var adctype = "unsigned char ";
+	if (resolution>8)
+		adctype = "unsigned int ";			
+
+	var resistor;
+	resistor = Number(GET('resistor'));
+	if (resistor < 1)
+		resistor = 10000;
+	if (resistor > 10000000)
+		resistor = 10000000;
+
+	var r25;
+	r25 = Number(GET('r25'));
+	if (r25 < 1)
+		r25 = 10000;
+	if (r25 > 10000000)
+		r25 = 10000000;
+
+	var beta;
+	beta = Number(GET('beta'));
+	if (beta < 100)
+		beta = 3480;
+	if (beta > 10000)
+		beta = 10000;
+		
+	var par_A;
+	par_A = Number(GET('par_A'));
+	var par_B;
+	par_B = Number(GET('par_B'));
+	var par_C;
+	par_C = Number(GET('par_C'));
+	var par_D;
+	par_D = Number(GET('par_D'));
+	
+	var unit;
+	unit = Number(GET('unit'));
+	if (unit < 0.00001)
+		unit = 0.1;
+	if (unit > 10)
+		unit = 10;
+
+	var tmin;
+
+	tmin = Number(GET('tmin'));
+	if (tmin < -273.15)
+		tmin = -273.15;
+	if (tmin > 1000)
+		tmin = 1000;
+
+	var tmax;
+	tmax = Number(GET('tmax'));
+	if (tmax < -273.15)
+		tmax = -273.15;
+	if (tmax > 1000)
+		tmax = 1000;
+
+	if (tmax < tmin)
+		tmax = tmin;
+
+	if (!Number(GET('points'))) {
+		circuit = 0;
+		points = 32;	
+		resolution = 8;
+		r25 = 10000;
+		resistor = 10000;
+		unit = 0.1;
+		beta = 3480;
+		
+		par_A = 0.0;
+		par_B = 0.0;
+		par_C = 0.0;
+		par_D = 0.0;
+		
+		tmin = -10;
+		tmax = 50;
+	}
+  // -->
+
+</script>
+    
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <br>
+                <h1>Automatisches Erzeugen einer NTC Tabelle</h1>  
+
+                <span class="textPI">Erzeugt den C Code zur Umrechnung von ADC Werte eines Spannungsteilers mit NTC in &deg;C</span>
+            </div>
+            <div class="col-12 mb-4">
+                <h4>Berechnung</h4><br>
+
+            <!-- Berechnungsform -->
+                <h5>Berechnungsform</h5>
+                <div class="table-responsive">
+                <!-- Radiobottons für Auswahl der Berechnungsform -->
+                        <table class="table tablePI">
+                            <tbody>
+                                <span class="textPI">
+                                   <tr>
+                                       <td>
+                                           <!-- beta -->
+                                           <label class="radioPI">beta <br>
+                                               <img class="imgfit" src="pic/ntc_beta.png" alt="NTC Berechnung mit beta">
+                                               <input type="radio" name="calcNTC" value="beta" checked="checked">
+                                               <span class="checkmarkRadioPI"></span>
+                                           </label>
+                                           
+                                           <!-- end beta -->
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <!-- Steinhart-hart3 -->
+                                            <label class="radioPI">Steinhart-hart3 <br>
+                                                <img class="imgfit" src="pic/ntc_steinhart-hart3.png" alt="NTC Berechnung mit Steinhart-Hart3">
+                                                <input type="radio" name="calcNTC" value="hart3">
+                                                <span class="checkmarkRadioPI"></span>
+                                            </label>
+
+                                            <!-- end Steinhart-hart3 -->
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <!-- Steinhart-hart4 -->
+                                            <label class="radioPI">Steinhart-hart4 <br>
+                                                <img class="imgfit" src="pic/ntc_steinhart-hart4.png" alt="NTC Berechnung mit Steinhart-Hart4">
+                                                <input type="radio" name="calcNTC" value="hart4">
+                                                <span class="checkmarkRadioPI"></span>
+                                            </label>
+                                            
+                                            <!-- end Steinhart-hart3 -->
+                                        </td>
+                                    </tr>
+                                </span>
+                            </tbody>
+                    </table>
+                    <!-- end Radiobottons für Auswahl der Berechnungsform -->
+                </div>
+                
+            <!-- end Berechnungsform -->
+            </div>
+        </div>
+    
+  
+<!-- Beta Berechnung -->
+        <div class="col-12 mb-4" id="betaBlock" >
+            <form onchange="javascript:CCalc();" method="get"> 
+                <h3>Erzeugen der Tabelle mit beta-Wert</h3>
+                <div class="table-responsive">
+                    <table class="table tablePI" style.th="width: 30%">
+                        <tbody>
+                            <span class="textPI">
+                                <tr>
+                                    <th>
+                                        Anzahl der Stützpunkte
+                                    </th>
+                                    <td>
+                                        <select class="selectPI" name="points" size="1">
+                                                <option value="8">8</option>
+                                                <option value="16">16</option>
+                                                <option value="32">32</option>
+                                                <option value="64">64</option>
+                                                <option value="128">128</option>
+                                                <option value="256">256</option>
+                                                <option value="512">512</option>
+                                                <option value="1024">1024</option>
+                                                <option value="2048">2048</option>
+                                                <option value="4096">4096</option>
+
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Einheit
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" name="unit" type="text" maxlength="10" value="0.1"> &deg;C
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            ADC Auflösung
+                                        </th>
+                                        <td>
+                                            <select class="selectPI" name="resolution" size="1">
+                                                <option value="8">8 Bit</option>
+                                                <option value="10">10 Bit</option>
+                                                <option value="12">12 Bit</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            NTC Beschaltung
+                                        </th>
+                                        <td>
+                                            <select class="selectPI" name="circuit" size="1">
+                                                <option value="pulldown">PullDown</option>
+                                                <option value="pullup">PullUp</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            PullUp/Down-Widerstand
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" name="resistor" type="text" size="10" maxlength="10" value="10000"> &ohm;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            RN = Widerstand NTCs bei TN=25&deg;C
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" name="r25" type="text" maxlength="10" value="10000">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Beta (B) Wert des NTCs
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" name="beta" type="text" maxlength="10" value="3480">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Messbereich
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" name="tmin" type="text" size="3" maxlength="10" value="-10"> &deg;C 
+                                            bis 
+                                            <input class="inputTextPI" name="tmax" type="text" size="3" maxlength="10" value="50"> &deg;C
+                                        </td>
+                                    </tr>
+                                </span>
+                            </tbody>
+            </table>
+            </div>
+            <input class="buttonPI center-block" type="button" value="Jetzt C-Code erzeugen" /> 
+            </form>
+        </div>
+<!-- END Beta Berechnung -->
+        
+    
+        
+	<div class="col-12 mb-4">
+        <span class="textPI">
+            Der Fehler durch die Verwendung einer Tabelle betr&auml;gt</span>
+        <a id="SmaxErrorOut"></a> <span> °C
+        </span>
+        <div>
+        <pre class="syntaxhighlighter cpp">// test test <br>// test <br>
+        #include "main.h"
+        
+        int main(void){
+            int x = 1;
+            
+            if(x == 1)
+
+        }
+        </pre>
+            </div>
+               </div>     
+    </div>
+<!--Footer bar-->
+    <div id="foot-placeholder"></div>
+        <script>
+    $(function(){
+      $("#foot-placeholder").load("/header/footer.html");
+    });
+    </script>
+<!--end of Footer bar-->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+    </body>
+</html>
+ 
+
+ 

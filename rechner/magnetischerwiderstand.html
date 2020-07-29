@@ -3,7 +3,7 @@
     
 <head>
 
-  <meta charset="utf-8">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Homepage ">
   <meta name="author" content="Tristan Linnemeier">
@@ -18,6 +18,11 @@
   <link href="/css/pingtools.css" rel="stylesheet">
 
     <script src="/vendor/jquery/jquery_sizzle.js"></script>
+          <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
     
 </head>
     
@@ -38,37 +43,30 @@
 function Calc()
 {
 	var input = new Object();
+	
+	input.Crosssection = parseFloat(document.InputForm.Crosssection.value)/1E6;
+	if (isNaN(input.Crosssection))
+	{
+		alert("Ungültige Eingabe der Querschnittsfläche");
+		return;
+	}      
+	input.Length = parseFloat(document.InputForm.Length.value)/1000;
+	if (isNaN(input.Length))
+	{
+		alert("Ungültige Eingabe der Weglänge");
+		return;
+	}      
 
-	Length = parseFloat(document.InputForm.Length.value);
-	if (isNaN(Length))
+	input.ur = parseFloat(document.InputForm.ur.value);
+	if (isNaN(input.ur))
 	{
-		alert("Ungültige Eingabe der Länge");
+		alert("Ungültige Eingabe von µr");
 		return;
 	}      
-	Width = parseFloat(document.InputForm.Width.value);
-	if (isNaN(Width))
-	{
-		alert("Ungültige Eingabe der Breite");
-		return;
-	}      
-	input.Thickness = parseFloat(document.InputForm.Thickness.value)/1000;
-	if (isNaN(input.Thickness))
-	{
-		alert("Ungültige Eingabe des Lagenabstandes");
-		return;
-	}
 	
-	input.Er = parseFloat(document.InputForm.Er.value);
-	if (isNaN(input.Er))
-	{
-		alert("Ungültige Eingabe der Dielektrizitätskonstante");
-		return;
-	}
-	
-	input.Area = Length/1000 * Width/1000;  
-	
-	output = getCapacitance(input);	
-	document.getElementById('Capacitance').innerHTML = output.CapacitanceStr;
+	output = getRmAl(input);	
+	document.getElementById('Rm').innerHTML = output.RmStr;
+	document.getElementById('Al').innerHTML = output.AlStr;
 }   
 </script>
 
@@ -77,50 +75,40 @@ function Calc()
         <div class="row">
             <div class="col-12 mb-4">
                 <br>
-                <h2>Leiterplattenkapazität</h2>
+                <h2>Magnetischer Widerstand</h2>
                 <span class="textPI">
-                    Arbeitet man beim PCB-Layout mit größeren Kupferflächen, bilden sich teils nicht zu vernachlässigende Leiterplattenkapazitäten aus, insbesondere bei Multilayer-PCBs, bei denen die Kupferlagen sehr nahe beieinander liegen.
-                </span>
+                    Werkzeug zur Berechnung des magnetischen Widerstandes in Abhängigkeit von Querschnitt und der Permeabilität (µr). Berechnet wird unter der Annahme eines homogenen Magnetfeldes.
+                    </span>
             </div>
-                <div class="col-lg-6 mb-4">              
-                    <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
-                        <h4>Berechnung</h4><br>
+            <div class="col-lg-6 mb-4">              
+                <form onchange="javascript:Calc();" id="InputForm" name="InputForm">
+                    <h4>Berechnung</h4><br>
                     <div class="table-responsive">
                         <table class="table tablePI">
                             <span class="textPI">
                                 <tr>
                                     <th>
-                                        Länge
+                                        Weglänge
                                     </th>
                                     <td>
-                                        <input id="Length" name="Length" type="text" value="20" autocomplete="off"> mm
+                                        <input class="inputTextPI" id="Length" name="Length" type="text" value="1" autocomplete="off"> mm
                                     </td>
-                                </tr>
                                     
+                                    <tr>
+                                        <th>
+                                            Querschnitt
+                                        </th>
+                                        <td>
+                                            <input class="inputTextPI" id="Crosssection" name="Crosssection" type="text" value="100" autocomplete="off"> mm²
+                                        </td>
+                                </tr>
+                                
                                 <tr>
                                     <th>
-                                        Breite
+                                        Permeabilität
                                     </th>
                                     <td>
-                                        <input id="Width" name="Width" type="text" value="20" autocomplete="off"> mm
-                                    </td>
-                                </tr>
-                                    
-                                <tr>
-                                    <th>
-                                        Layer-Abstand
-                                    </th>
-                                    <td>
-                                        <input id="Thickness" name="Thickness" type="text" value="1.5" autocomplete="off"> mm     
-                                    </td>
-                                </tr>
-                                    
-                                <tr>
-                                    <th>
-                                        Dielektrizitätskonstante
-                                    </th>
-                                    <td>
-                                        <input id="Er" name="Er" type="text" value="4.2" autocomplete="off"> (FR4: ca. 4.2) 
+                                        <input class="inputTextPI" id="ur" name="ur" type="text" value="1" autocomplete="off">
                                     </td>
                                 </tr>
                                 
@@ -128,8 +116,8 @@ function Calc()
                                     <th>
                                     </th>
                                     <td>
-                                        <!-- button with no function to simply update the script by tabbing out of the textbox -->
-                                        <input class="buttonPI center-block" style="width: auto" name="Knopf" type="button" value="Berechnen">
+                                    <!-- button with no function to simply update the script by tabbing out of the textbox -->
+                                    <input class="buttonPI center-block" style="width: auto" name="Knopf" type="button" value="Berechnen">
                                     </td>
                                 </tr>
                             </span>
@@ -139,18 +127,29 @@ function Calc()
             </div>
    
             <div class="col-lg-6 mb-4">
-                <h4>Ergebnis</h4><br>
+                <h4>Ergebnisse</h4><br>
                 <span class="textPI">
                     <div class="table-responsive border-Ergebnis">
                         <table class="table">
                             <tr>
                                 <th>
-                                    Kapazität
+                                    Rm
                                 </th>
                                 <td>
-                                    <span id="Capacitance"></span>
+                                    <span id="Rm"></span>
                                 </td>
                             </tr>
+                            
+                            <tr>
+                                <th>
+                                    Al
+                                </th>
+                                <td>
+                                    <span id="Al"></span>
+                                </td>
+                            </tr>
+                            
+                            
                         </table>
                     </div>
                 </span>
@@ -178,9 +177,6 @@ function Calc()
     </script>
 <!--end of Footer bar-->
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </body>
 </html>
